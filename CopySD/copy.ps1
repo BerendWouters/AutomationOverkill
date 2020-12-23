@@ -1,8 +1,5 @@
 $PathToMonitor = "$($home)/Documents/Video"
-
-$FolderToCopyTo = "$($home)/Videos/"
-
-$directoryOnCardToProcess = 'DCIM';
+$FolderToCopyTo = "$($home)/Videos"
 $fileTypeToProcess = 'mp4';
 
 if((Test-Path -Path $FolderToCopyTo) -eq $false){
@@ -10,11 +7,10 @@ if((Test-Path -Path $FolderToCopyTo) -eq $false){
     return;
 }
 
-function GetDestinationFolder{
-    
-    $now = Get-Date -Format "yyyy-MM-dd"
-    
+function GetDestinationFolder{    
+    $now = Get-Date -Format "yyyy-MM-dd"    
     $currentDayDestination = Join-Path -Path $FolderToCopyTo -ChildPath $now;
+
     if((Test-Path -Path $currentDayDestination) -eq $false){
         Write-Host "Creating $currentDayDestination since it doesn't exist yet" -ForegroundColor Green
         New-Item -Path $FolderToCopyTo -Name $now -ItemType "directory"
