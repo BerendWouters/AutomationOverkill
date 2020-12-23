@@ -1,21 +1,33 @@
-$PathToMonitor = "$($home)/Documents/Video"
-$FolderToCopyTo = "$($home)/Videos"
-$fileTypeToProcess = 'mp4';
+# parameters to customize
+$PathToMonitor = ""
+$rsyncServer = ""
+$FolderToCopyTo = ""
+$fileTypeToProcess = '';
 
-if((Test-Path -Path $FolderToCopyTo) -eq $false){
-    Write-Host "Folder to copy to $FolderToCopyTo doesn't exist"
-    return;
+if((Test-Path -Path $PathToMonitor) -eq $false){
+    Write-Host "Folder to watch to $PathToMonitor doesn't exist (yet)"
+}
+
+# if((Test-Path -Path $FolderToCopyTo) -eq $false){
+#     Write-Host "Folder to copy to $FolderToCopyTo doesn't exist" -ForegroundColor Red
+#     # return;
+# }
+
+function GetOriginFolder{
+    
+    $now = Get-Date -Format "yyyy-MM-dd"    
+    $currentDayOriginFolder = Join-Path $PathToMonitor -ChildPath $now;
+    if((Test-Path -Path $currentDayOriginFolder) -eq $false){
+      Write-Host "Creating $currentDayOriginFolder since it doesn't exist yet" -ForegroundColor Green
+      New-Item -Path $PathToMonitor -Name $now -ItemType "directory"
+    }
+
+    return $currentDayOriginFolder
 }
 
 function GetDestinationFolder{    
     $now = Get-Date -Format "yyyy-MM-dd"    
-    $currentDayDestination = Join-Path -Path $FolderToCopyTo -ChildPath $now;
-
-    if((Test-Path -Path $currentDayDestination) -eq $false){
-        Write-Host "Creating $currentDayDestination since it doesn't exist yet" -ForegroundColor Green
-        New-Item -Path $FolderToCopyTo -Name $now -ItemType "directory"
-
-    }
+    $currentDayDestination = Join-Path $FolderToCopyTo -ChildPath $now;
     
     return $currentDayDestination;
 }
@@ -28,7 +40,7 @@ function CheckIfPathIsAlreadyMounted {
         return
     }
     if($amountOfDirectoriesInPath -eq 1){
-        Write-Host "Found one directory in $PathToMonitor. Will process this one."
+        Write-Host "Found one directory in $PathToMonitor. Will process this one." -ForegroundColor Green
         ProcessCreatedEvent $subfolders[0];
         return
     }
@@ -50,7 +62,12 @@ function ProcessCreatedEvent{
         $fullPath
     )
     Write-Host "Processing $($fullPath)";
-    $files = Get-ChildItem -Path $fullPath -File -Recurse -Include "*.$fileTypeToProcess"
+    Write-Host "Moving files to date directory" ## TODO Get creationDate from file
+    $originFolder = GetOriginFolder
+    Move-Item -Path "$fullPath\*.$fileTypeToProcess" -Destination $originFolder.FullName
+
+    Write-Host "Processing $($originFolder)";
+    $files = Get-ChildItem -Path $originFolder -File -Recurse -Include "*.$fileTypeToProcess"
     Write-Host "Found $($files.Length) files of type $fileTypeToProcess";
     foreach ($file in $files) {
         CopyFile $file
@@ -68,11 +85,13 @@ function CopyFile{
     $fileSizeInBytes = (Get-Item $originFile).Length
     $fileSizeHumanFriendly = Format-FileSize $fileSizeInBytes
     Write-Host "File size is $fileSizeHumanFriendly"
-    $fileName = (Get-Item $originFile).Name;
-    $destinationFolder = GetDestinationFolder
-    $destinationFile = Join-Path -Path $destinationFolder -ChildPath $fileName ;
-    Write-Host "About to copy $originFile -> $destinationFile";
-    Copy-Item -Path $originFile -Destination $destinationFile -Force
+    $rsyncPath =  $rsyncServer+":"+$FolderToCopyTo
+    Write-Host "About to copy $originFile -> $rsyncPath";
+    try{
+        rsync -arv $originFile $rsyncPath
+    }catch{
+        Write-Error "Failed to copy $originFile"
+    }
 }
 
 Function Format-FileSize() {
