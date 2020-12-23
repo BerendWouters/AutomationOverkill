@@ -1,7 +1,28 @@
-$PathToMonitor = '/media/pi'
+$PathToMonitor = "$($home)/Documents/Video"
+
+$FolderToCopyTo = "$($home)/Videos/"
 
 $directoryOnCardToProcess = 'DCIM';
 $fileTypeToProcess = 'mp4';
+
+if((Test-Path -Path $FolderToCopyTo) -eq $false){
+    Write-Host "Folder to copy to $FolderToCopyTo doesn't exist"
+    return;
+}
+
+function GetDestinationFolder{
+    
+    $now = Get-Date -Format "yyyy-MM-dd"
+    
+    $currentDayDestination = Join-Path -Path $FolderToCopyTo -ChildPath $now;
+    if((Test-Path -Path $currentDayDestination) -eq $false){
+        Write-Host "Creating $currentDayDestination since it doesn't exist yet" -ForegroundColor Green
+        New-Item -Path $FolderToCopyTo -Name $now -ItemType "directory"
+
+    }
+    
+    return $currentDayDestination;
+}
 
 function CheckIfPathIsAlreadyMounted {
     $subfolders = Get-ChildItem -Path $PathToMonitor -Directory
@@ -45,13 +66,17 @@ function CopyFile{
     param(
         [Parameter(Mandatory)]
         [string]
-        $file
+        $originFile
     )
 
-    Write-Host "About to copy $file";
-    $fileSizeInBytes = (Get-Item $file).Length
+    $fileSizeInBytes = (Get-Item $originFile).Length
     $fileSizeHumanFriendly = Format-FileSize $fileSizeInBytes
-    Write-Host "Filesize is $fileSizeHumanFriendly"
+    Write-Host "File size is $fileSizeHumanFriendly"
+    $fileName = (Get-Item $originFile).Name;
+    $destinationFolder = GetDestinationFolder
+    $destinationFile = Join-Path -Path $destinationFolder -ChildPath $fileName ;
+    Write-Host "About to copy $originFile -> $destinationFile";
+    Copy-Item -Path $originFile -Destination $destinationFile -Force
 }
 
 Function Format-FileSize() {
