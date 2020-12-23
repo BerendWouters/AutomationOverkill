@@ -35,8 +35,34 @@ function ProcessCreatedEvent{
     Write-Host "Processing $($fullPath)";
     $files = Get-ChildItem -Path $fullPath -File -Recurse -Include "*.$fileTypeToProcess"
     Write-Host "Found $($files.Length) files of type $fileTypeToProcess";
+    foreach ($file in $files) {
+        CopyFile $file
+        Write-Host "-------"
+    }
 }
 
+function CopyFile{
+    param(
+        [Parameter(Mandatory)]
+        [string]
+        $file
+    )
+
+    Write-Host "About to copy $file";
+    $fileSizeInBytes = (Get-Item $file).Length
+    $fileSizeHumanFriendly = Format-FileSize $fileSizeInBytes
+    Write-Host "Filesize is $fileSizeHumanFriendly"
+}
+
+Function Format-FileSize() {
+    Param ([float] $size)
+    If ($size -gt 1TB) {[string]::Format("{0:0.00} TB", $size / 1TB)}
+    ElseIf ($size -gt 1GB) {[string]::Format("{0:0.00} GB", $size / 1GB)}
+    ElseIf ($size -gt 1MB) {[string]::Format("{0:0.00} MB", $size / 1MB)}
+    ElseIf ($size -gt 1KB) {[string]::Format("{0:0.00} kB", $size / 1KB)}
+    ElseIf ($size -gt 0) {[string]::Format("{0:0.00} B", $size)}
+    Else {""}
+}
 
 
 
