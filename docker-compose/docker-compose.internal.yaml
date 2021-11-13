@@ -58,7 +58,7 @@ services:
     environment:
     - ESPHOME_DASHBOARD_USE_PING=true
     command:
-    - "dashboard"
+    - "dashboard /config"
     volumes:
     - ${ESPHOME_FOLDER_CONFIG}:/config
     - ${ESPHOME_FOLDER_LOCALTIME}:/etc/localtime
