@@ -33,3 +33,14 @@ services:
       target: 8086
     volumes:
     - ${INFLUXDB_FOLDER_DATA}:/var/lib/influxdb:rw
+  
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+    - published: ${PROMETHEUS_PORT}
+      target: 9090
+    command:
+    - '--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus --web.console.libraries=/usr/share/prometheus/console_libraries --web.console.templates=/usr/share/prometheus/consoles'
+    volumes:
+    - ${PROMETHEUS_FOLDER_DATA}:/prometheus
+    - ${PROMETHEUS_FOLDER_CONFIG}:/etc/prometheus/prometheus.yml
