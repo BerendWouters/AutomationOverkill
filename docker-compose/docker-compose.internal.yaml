@@ -1,21 +1,6 @@
 version: '3.0'
 
 services:
-  portainer:
-    image: portainer/portainer-ce:2.9.2-alpine
-    environment:
-    - TZ=Europe/Brussels
-    - PGID=1000
-    - PUID=1000
-    command:
-    - "-H unix:///var/run/docker.sock"
-    ports:
-    - 9000:9000
-    volumes:
-    - ${PORTAINER_FOLDER_DATA}:/data
-    - ${PORTAINER_FOLDER_SHARED}:/shared
-    - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
 
   transmission:
     image: linuxserver/transmission:2021.10.28
