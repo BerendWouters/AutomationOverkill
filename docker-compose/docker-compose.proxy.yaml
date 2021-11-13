@@ -3,7 +3,6 @@ version: '3.0'
 services:
   bazarr:
     image: ghcr.io/linuxserver/bazarr
-    container_name: bazarr
     environment:
       - PUID=1000
       - PGID=1000
@@ -126,7 +125,7 @@ services:
         db-port: ${INFLUXDB_PORT}
         db-server: ${INFLUXDB_SERVER}
     ports:
-    - published: 8123
+    - published: ${HOMEASSISTANT_PORT}
       target: 8123
     restart: unless-stopped
     volumes:
@@ -221,7 +220,7 @@ services:
         db-server: ${INFLUXDB_SERVER}
     ports:
     - protocol: tcp
-      published: ${INFLUXDB_PORT}
+      published: ${SICKCHILL_PORT}
       target: 8081
     volumes:
     - ${SICKCHILL_FOLDER_DOWNLOADS}:/tvshows/downloads:rw
