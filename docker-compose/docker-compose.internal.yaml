@@ -40,7 +40,7 @@ services:
     restart: unless-stopped
   
   mosquitto:
-    image: eclipse/mosquitto:latest
+    image: eclipse-mosquitto:latest
     ports:
     - 8883:1883
     - 1883:1883
