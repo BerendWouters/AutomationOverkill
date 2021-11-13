@@ -57,8 +57,6 @@ services:
     - ${ESPHOME_PORT}:6052
     environment:
     - ESPHOME_DASHBOARD_USE_PING=true
-    command:
-    - "/config dashboard"
     volumes:
     - ${ESPHOME_FOLDER_CONFIG}:/config
     - ${ESPHOME_FOLDER_LOCALTIME}:/etc/localtime
