@@ -28,7 +28,7 @@ services:
     - HOME=/root
     ports:
     - 51413:51413
-    - ${TRANMISSION_PORT}:9091
+    - ${TRANSMISSION_PORT}:9091
     restart: unless-stopped
     volumes:
     - ${TRANSMISSION_FOLDER_DEFAULT_DOWNLOAD}:/downloads
