@@ -35,7 +35,7 @@ services:
     - ${INFLUXDB_FOLDER_DATA}:/var/lib/influxdb:rw
   
   prometheus:
-    image: prom/prometheus:1.8.1
+    image: prom/prometheus:v1.8.1
     ports:
     - published: ${PROMETHEUS_PORT}
       target: 9090
