@@ -1,0 +1,233 @@
+version: '3.0'
+
+services:
+  bazarr:
+    image: ghcr.io/linuxserver/bazarr
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Brussels
+    volumes:
+      - ${BAZARR_FOLDER_CONFIG}:/config:rw
+      - ${BAZARR_FOLDER_MOVIES}:/movies:rw
+      - ${BAZARR_FOLDER_TVSHOWS}:/tv:rw
+      - ${BAZARR_FOLDER_MOVIES_DOWNLOADS}:/downloads/movies      - 
+      - ${BAZARR_FOLDER_TVSHOWS_DOWNLOADS}:/downloads/series
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.bazarr_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.bazarr_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.bazarr_http.entrypoints: web
+      traefik.http.routers.bazarr_http.middlewares: bazarr_https_redirect
+      traefik.http.routers.bazarr_http.rule: Host(`bazarr.${DNS_HOSTNAME}`)
+      traefik.http.routers.bazarr_https.entrypoints: websecure
+      traefik.http.routers.bazarr_https.rule: Host(`bazarr.${DNS_HOSTNAME}`)
+      traefik.http.routers.bazarr_https.tls.certresolver: myresolver
+    ports:
+      - ${BAZARR_PORT}:6767
+    restart: unless-stopped
+    logging:
+      driver: influxdb-log-driver:latest
+      options:
+        db-database: ${INFLUXDB_DATABASE}
+        db-port: ${INFLUXDB_PORT}
+        db-server: ${INFLUXDB_SERVER}
+    depends_on:
+      reverse-proxy:
+        condition: service_started
+
+  grafana:
+    image: grafana/grafana:latest
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Brussels
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.grafana_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.grafana_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.grafana_http.entrypoints: web
+      traefik.http.routers.grafana_http.middlewares: grafana_https_redirect
+      traefik.http.routers.grafana_http.rule: Host(`grafana.${DNS_HOSTNAME}`)
+      traefik.http.routers.grafana_https.entrypoints: websecure
+      traefik.http.routers.grafana_https.rule: Host(`grafana.${DNS_HOSTNAME}`)
+      traefik.http.routers.grafana_https.tls.certresolver: myresolver
+    ports:
+    - published: ${GRAFANA_PORT}
+      target: 3000
+    restart: unless-stopped
+    user: '1000'
+    volumes:
+    - ${GRAFANA_FOLDER_DATA}:/var/lib/grafana:rw
+    logging:
+      driver: influxdb-log-driver:latest
+      options:
+        db-database: ${INFLUXDB_DATABASE}
+        db-port: ${INFLUXDB_PORT}
+        db-server: ${INFLUXDB_SERVER}
+    depends_on:
+      reverse-proxy:
+        condition: service_started
+
+  heimdall:
+    environment:
+    - PUID=1000
+    - PGID=1000
+    - TZ=Europe/Brussels
+    image: linuxserver/heimdall
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.heimdall_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.heimdall_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.heimdall_http.entrypoints: web
+      traefik.http.routers.heimdall_http.middlewares: heimdall_https_redirect
+      traefik.http.routers.heimdall_http.rule: Host(`heimdall.${DNS_HOSTNAME}`)
+      traefik.http.routers.heimdall_https.entrypoints: websecure
+      traefik.http.routers.heimdall_https.rule: Host(`heimdall.${DNS_HOSTNAME}`)
+      traefik.http.routers.heimdall_https.tls.certresolver: myresolver
+    ports:
+    - published: ${HEIMDALL_PORT}
+      target: 80
+    restart: unless-stopped
+    volumes:
+    - ${HEIMDALL_FOLDER_CONFIG}:/config:rw
+    logging:
+      driver: influxdb-log-driver:latest
+      options:
+        db-database: ${INFLUXDB_DATABASE}
+        db-port: ${INFLUXDB_PORT}
+        db-server: ${INFLUXDB_SERVER}
+    depends_on:
+      reverse-proxy:
+        condition: service_started
+
+  homeassistant:
+    image: homeassistant/home-assistant:latest
+    environment:
+    - PUID=1000
+    - PGID=1000
+    - TZ=Europe/Brussels
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.homeassistant_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.homeassistant_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.homeassistant_http.entrypoints: web
+      traefik.http.routers.homeassistant_http.middlewares: homeassistant_https_redirect
+      traefik.http.routers.homeassistant_http.rule: Host(`homeassistant.${DNS_HOSTNAME}`)
+      traefik.http.routers.homeassistant_https.entrypoints: websecure
+      traefik.http.routers.homeassistant_https.rule: Host(`homeassistant.${DNS_HOSTNAME}`)
+      traefik.http.routers.homeassistant_https.tls.certresolver: myresolver
+    logging:
+      driver: influxdb-log-driver:latest
+      options:
+        db-database: ${INFLUXDB_DATABASE}
+        db-port: ${INFLUXDB_PORT}
+        db-server: ${INFLUXDB_SERVER}
+    ports:
+    - published: 8123
+      target: 8123
+    restart: unless-stopped
+    volumes:
+    - ${HOMEASSISTANT_FOLDER_CONFIG}:/config:rw
+    depends_on:
+      reverse-proxy:
+        condition: service_started
+  
+  radarr:
+    depends_on:
+      reverse-proxy:
+        condition: service_started
+    environment:
+      PGID: '1000'
+      PUID: '1000'
+      TZ: Europe/Brussels
+    image: linuxserver/radarr:latest
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.radarr_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.radarr_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.radarr_http.entrypoints: web
+      traefik.http.routers.radarr_http.middlewares: radarr_https_redirect
+      traefik.http.routers.radarr_http.rule: Host(`radarr.${DNS_HOSTNAME}`) || Host(`couchpotato.${DNS_HOSTNAME}`)
+      traefik.http.routers.radarr_https.entrypoints: websecure
+      traefik.http.routers.radarr_https.rule: Host(`radarr.${DNS_HOSTNAME}`) || Host(`couchpotato.${DNS_HOSTNAME}`)
+      traefik.http.routers.radarr_https.tls.certresolver: myresolver
+    logging:
+      driver: influxdb-log-driver:latest
+      options:
+        db-database: ${INFLUXDB_DATABASE}
+        db-port: ${INFLUXDB_PORT}
+        db-server: ${INFLUXDB_SERVER}
+    ports:
+    - protocol: tcp
+      published: ${RADARR_PORT}
+      target: 7878
+    restart: unless-stopped
+    volumes:
+    - ${RADARR_FOLDER_COMPLETED}:/completed:rw
+    - ${RADARR_FOLDER_CONFIG}:/config:rw
+    - ${RADARR_FOLDER_DOWNLOADS}:/downloads:rw
+    - ${RADARR_FOLDER_MOVIES}:/movies:rw
+
+  reverse-proxy:
+    image: traefik:v2.4.8
+    command: 
+      --log.level=DEBUG 
+      --api.insecure=true 
+      --providers.docker 
+      --providers.docker.exposedByDefault=false
+      --entrypoints.web.address=:80 
+      --entrypoints.websecure.address=:443 
+      --entrypoints.openttd-tcp.address=:3979/tcp 
+      --entrypoints.openttd-udp.address=:3979/udp
+      --certificatesresolvers.myresolver.acme.httpchallenge=true
+      --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web 
+      --certificatesresolvers.myresolver.acme.email=${LETSENCRYPT_EMAIL}
+      --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json 
+      --metrics.prometheus=true
+      --metrics.prometheus.addServicesLabels=true 
+      --metrics.prometheus.addEntryPointsLabels=true
+    logging:
+      driver: influxdb-log-driver:latest
+      options:
+        db-database: ${INFLUXDB_DATABASE}
+        db-port: ${INFLUXDB_PORT}
+        db-server: ${INFLUXDB_SERVER}        
+    restart: unless-stopped
+
+  sickchill:
+    image: linuxserver/sickchill:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Brussels
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.sickchill_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.sickchill_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.sickchill_http.entrypoints: web
+      traefik.http.routers.sickchill_http.middlewares: sickchill_https_redirect
+      traefik.http.routers.sickchill_http.rule: Host(`sickrage.${DNS_HOSTNAME}`) || Host(`sickchill.${DNS_HOSTNAME}`)
+      traefik.http.routers.sickchill_https.entrypoints: websecure
+      traefik.http.routers.sickchill_https.rule: Host(`sickrage.${DNS_HOSTNAME}`) || Host(`sickchill.${DNS_HOSTNAME}`)
+      traefik.http.routers.sickchill_https.tls.certresolver: myresolver
+    logging:
+      driver: influxdb-log-driver:latest
+      options:
+        db-database: ${INFLUXDB_DATABASE}
+        db-port: ${INFLUXDB_PORT}
+        db-server: ${INFLUXDB_SERVER}
+    ports:
+    - protocol: tcp
+      published: ${INFLUXDB_PORT}
+      target: 8081
+    volumes:
+    - ${SICKCHILL_FOLDER_DOWNLOADS}:/tvshows/downloads:rw
+    - ${SICKCHILL_FOLDER_TVSHOWS}:/series:rw
+    - ${SICKCHILL_FOLDER_CONFIG}:/config:rw
+    - ${SICKCHILL_FOLDER_DATA}:/data:rw
+    depends_on:
+      reverse-proxy:
+        condition: service_started
