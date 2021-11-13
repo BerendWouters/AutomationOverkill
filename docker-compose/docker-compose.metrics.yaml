@@ -10,7 +10,7 @@ services:
     - /:/rootfs:ro
     - /var/run:/var/run:rw
     - /sys:/sys:ro
-    - {DOCKER_FOLDER_VARLIB}:/var/lib/docker:ro
+    - ${DOCKER_FOLDER_VARLIB}:/var/lib/docker:ro
     - /dev/disk/:/dev/disk:ro
     command:
       - '--docker_only=true'      
@@ -21,7 +21,7 @@ services:
     environment:
       TZ: Europe/Brussels
     volumes:
-    - {TELEGRAF_FOLDER_ETC}:/etc/telegraf/:ro      
+    - ${TELEGRAF_FOLDER_ETC}:/etc/telegraf/:ro      
     restart: unless-stopped
     
   influxdb:
@@ -29,7 +29,7 @@ services:
     environment:
       TZ: Europe/Brussels
     ports:
-    - published: ${INLFUXDB_PORT}
+    - published: ${INFLUXDB_PORT}
       target: 8086
     volumes:
     - ${INFLUXDB_FOLDER_DATA}:/var/lib/influxdb:rw
