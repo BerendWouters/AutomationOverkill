@@ -21,3 +21,46 @@ services:
     - ${TRANSMISSION_FOLDER_MOVIES_DOWNLOAD}:/movies/downloads
     - ${TRANSMISSION_FOLDER_CONFIG}:/config
     - ${TRANSMISSION_FOLDER_DATA}:/data
+  
+  adguard:
+    image: adguard/adguardhome:latest
+    command:
+    - "-h 0.0.0.0 -c /opt/adguardhome/conf/AdGuardHome.yaml -w /opt/adguardhome/work --no-check-update"
+    ports:
+    - 3030:3000
+    - 53:53/tcp
+    - 53:53/udp
+    - 67:67/udp
+    - 853:853
+    - ${ADGUARD_PORT_HTTP}:80
+    - ${ADGUARD_PORT_8053}:8053
+    volumes:
+    - ${ADGUARD_FOLDER_CONFIG}:/opt/adguardhome/conf
+    - ${ADGUARD_FOLDER_WORK}:/opt/adguardhome/work
+    restart: unless-stopped
+  
+  mosquitto:
+    image: eclipse/mosquitto:latest
+    ports:
+    - 8883:1883
+    - 1883:1883
+    - 9001:9001
+    volumes:
+    - ${MOSQUITTO_FOLDER_CONFIG}:/mosquitto/config
+    - ${MOSQUITTO_FOLDER_DATA}:/mosquitto/data
+    - ${MOSQUITTO_FOLDER_LOG}:/mosquitto/log
+    restart: unless-stopped
+  
+  esphome:
+    image: esphome/esphome:latest
+    ports:
+    - ${ESPHOME_PORT}:6052
+    environment:
+    - ESPHOME_DASHBOARD_USE_PING=true
+    command:
+    - "/config dashboard"
+    volumes:
+    - ${ESPHOME_FOLDER_CONFIG}:/config
+    - ${ESPHOME_FOLDER_LOCALTIME}:/etc/localtime
+    restart: unless-stopped
+
