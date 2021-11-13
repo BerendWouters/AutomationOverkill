@@ -195,6 +195,16 @@ services:
         db-port: ${INFLUXDB_PORT}
         db-server: ${INFLUXDB_SERVER}        
     restart: unless-stopped
+    ports:
+    - published: 80
+      target: 80
+    - published: 443
+      target: 443
+    - published: 8080
+      target: 8080
+    volumes:
+    - ${TRAEFIK_FOLDER_LETSENCRYPT}:/letsencrypt:rw
+    - /var/run/docker.sock:/var/run/docker.sock:ro
 
   sickchill:
     image: linuxserver/sickchill:latest
