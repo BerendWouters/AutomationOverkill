@@ -24,8 +24,6 @@ services:
   
   adguard:
     image: adguard/adguardhome:latest
-    command:
-    - "-h 0.0.0.0 -c /opt/adguardhome/conf/AdGuardHome.yaml -w /opt/adguardhome/work --no-check-update"
     ports:
     - 3030:3000
     - 53:53/tcp
