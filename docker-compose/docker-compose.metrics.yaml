@@ -17,7 +17,8 @@ services:
     - ${DOCKER_FOLDER_VARLIB}:/var/lib/docker:ro
     - /dev/disk/:/dev/disk:ro
     command:
-      - '--docker_only=true'      
+    - '-housekeeping_interval=10s'
+    - '-docker_only=true'    
     restart: unless-stopped
 
   telegraf:
