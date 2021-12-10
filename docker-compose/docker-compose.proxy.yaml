@@ -200,7 +200,7 @@ services:
       target: 80
     - published: 443
       target: 443
-    - published: 8080
+    - published: 8180
       target: 8080
     volumes:
     - ${TRAEFIK_FOLDER_LETSENCRYPT}:/letsencrypt:rw
