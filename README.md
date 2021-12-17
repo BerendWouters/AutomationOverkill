@@ -1,6 +1,12 @@
 # AutomationOverkill
 Bunch of scripts and how-to's on how to handle automation
 
+## Docker compose files
+- Traefik proxy
+- Automation tooling
+- Metric collection
+- Internal networking
+
 ## Collection
 - Automate SD card copy to other location
 
