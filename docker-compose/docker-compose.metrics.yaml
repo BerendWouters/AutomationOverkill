@@ -55,7 +55,8 @@ services:
     volumes:
     - ${PROMETHEUS_FOLDER_DATA}:/prometheus
     - ${PROMETHEUS_FOLDER_CONFIG}:/etc/prometheus/prometheus.yml
-    
+ 
+  loki:
    image: grafana/loki:2.4.0
     ports:
       - "3100:3100"
