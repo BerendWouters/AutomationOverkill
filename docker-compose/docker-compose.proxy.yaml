@@ -119,11 +119,9 @@ services:
       traefik.http.routers.homeassistant_https.rule: Host(`homeassistant.${DNS_HOSTNAME}`)
       traefik.http.routers.homeassistant_https.tls.certresolver: myresolver
     logging:
-      driver: influxdb-log-driver:latest
+      driver: loki
       options:
-        db-database: ${INFLUXDB_DATABASE}
-        db-port: ${INFLUXDB_PORT}
-        db-server: ${INFLUXDB_SERVER}
+        loki-url: http://host.docker.internal:3100/loki/api/v1/push
     ports:
     - published: ${HOMEASSISTANT_PORT}
       target: 8123
@@ -223,11 +221,9 @@ services:
       traefik.http.routers.sickchill_https.rule: Host(`sickrage.${DNS_HOSTNAME}`) || Host(`sickchill.${DNS_HOSTNAME}`)
       traefik.http.routers.sickchill_https.tls.certresolver: myresolver
     logging:
-      driver: influxdb-log-driver:latest
+      driver: loki
       options:
-        db-database: ${INFLUXDB_DATABASE}
-        db-port: ${INFLUXDB_PORT}
-        db-server: ${INFLUXDB_SERVER}
+        loki-url: http://host.docker.internal:3100/loki/api/v1/push
     ports:
     - protocol: tcp
       published: ${SICKCHILL_PORT}
