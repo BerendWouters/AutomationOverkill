@@ -69,7 +69,9 @@ services:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
     volumes:
+    - ${LOKI_FOLDER_DATA}:/data/loki
     - ${LOKI_FOLDER_ETC}:/etc/loki
+    restart: unless-stopped
 
   promtail:
     image: grafana/promtail:2.4.0
