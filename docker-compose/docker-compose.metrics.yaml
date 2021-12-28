@@ -72,8 +72,8 @@ services:
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
-    volumes:
-    - ${LOKI_FOLDER_ETC}:/etc/loki
+    # volumes:
+    # - ${LOKI_FOLDER_ETC}:/etc/loki
     restart: unless-stopped
 
   promtail:
