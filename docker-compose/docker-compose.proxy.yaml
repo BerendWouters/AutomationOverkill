@@ -37,7 +37,7 @@ services:
         condition: service_started
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:7.5.12
     environment:
       - GF_INSTALL_PLUGINS=grafana-piechart-panel
       - PUID=1000
