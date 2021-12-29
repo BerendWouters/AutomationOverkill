@@ -27,11 +27,9 @@ services:
       - ${BAZARR_PORT}:6767
     restart: unless-stopped
     logging:
-      driver: influxdb-log-driver:latest
+      driver: loki:latest
       options:
-        db-database: ${INFLUXDB_DATABASE}
-        db-port: ${INFLUXDB_PORT}
-        db-server: ${INFLUXDB_SERVER}
+        loki-url: "http://localhost:3100/loki/api/v1/push"
     depends_on:
       reverse-proxy:
         condition: service_started
@@ -59,13 +57,11 @@ services:
     restart: unless-stopped
     user: '1000'
     volumes:
-    - ${GRAFANA_FOLDER_DATA}:/var/lib/grafana:rw
+    - ${GRAFANA_FOLDER_DATA}:/var/lib/grafana:rw    
     logging:
-      driver: influxdb-log-driver:latest
+      driver: loki:latest
       options:
-        db-database: ${INFLUXDB_DATABASE}
-        db-port: ${INFLUXDB_PORT}
-        db-server: ${INFLUXDB_SERVER}
+        loki-url: "http://localhost:3100/loki/api/v1/push"
     depends_on:
       reverse-proxy:
         condition: service_started
@@ -91,13 +87,11 @@ services:
       target: 80
     restart: unless-stopped
     volumes:
-    - ${HEIMDALL_FOLDER_CONFIG}:/config:rw
+    - ${HEIMDALL_FOLDER_CONFIG}:/config:rw    
     logging:
-      driver: influxdb-log-driver:latest
+      driver: loki:latest
       options:
-        db-database: ${INFLUXDB_DATABASE}
-        db-port: ${INFLUXDB_PORT}
-        db-server: ${INFLUXDB_SERVER}
+        loki-url: "http://localhost:3100/loki/api/v1/push"
     depends_on:
       reverse-proxy:
         condition: service_started
@@ -150,13 +144,11 @@ services:
       traefik.http.routers.radarr_http.rule: Host(`radarr.${DNS_HOSTNAME}`) || Host(`couchpotato.${DNS_HOSTNAME}`)
       traefik.http.routers.radarr_https.entrypoints: websecure
       traefik.http.routers.radarr_https.rule: Host(`radarr.${DNS_HOSTNAME}`) || Host(`couchpotato.${DNS_HOSTNAME}`)
-      traefik.http.routers.radarr_https.tls.certresolver: myresolver
+      traefik.http.routers.radarr_https.tls.certresolver: myresolver    
     logging:
-      driver: influxdb-log-driver:latest
+      driver: loki:latest
       options:
-        db-database: ${INFLUXDB_DATABASE}
-        db-port: ${INFLUXDB_PORT}
-        db-server: ${INFLUXDB_SERVER}
+        loki-url: "http://localhost:3100/loki/api/v1/push"
     ports:
     - protocol: tcp
       published: ${RADARR_PORT}
@@ -185,13 +177,11 @@ services:
       --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json 
       --metrics.prometheus=true
       --metrics.prometheus.addServicesLabels=true 
-      --metrics.prometheus.addEntryPointsLabels=true
+      --metrics.prometheus.addEntryPointsLabels=true    
     logging:
-      driver: influxdb-log-driver:latest
+      driver: loki:latest
       options:
-        db-database: ${INFLUXDB_DATABASE}
-        db-port: ${INFLUXDB_PORT}
-        db-server: ${INFLUXDB_SERVER}        
+        loki-url: "http://localhost:3100/loki/api/v1/push"   
     restart: unless-stopped
     ports:
     - published: 80
