@@ -20,8 +20,11 @@ services:
     - ${TRANSMISSION_FOLDER_TVSHOWS_DOWNLOAD}:/tvshows/downloads
     - ${TRANSMISSION_FOLDER_MOVIES_DOWNLOAD}:/movies/downloads
     - ${TRANSMISSION_FOLDER_CONFIG}:/config
-    - ${TRANSMISSION_FOLDER_DATA}:/data
-  
+    - ${TRANSMISSION_FOLDER_DATA}:/data  
+    logging:
+      driver: loki:latest
+      options:
+        loki-url: "http://localhost:3100/loki/api/v1/push"
   adguard:
     image: adguard/adguardhome:latest
     ports:
@@ -35,8 +38,12 @@ services:
     volumes:
     - ${ADGUARD_FOLDER_CONFIG}:/opt/adguardhome/conf
     - ${ADGUARD_FOLDER_WORK}:/opt/adguardhome/work
-    restart: unless-stopped
-  
+    restart: unless-stopped    
+    logging:
+      driver: loki:latest
+      options:
+        loki-url: "http://localhost:3100/loki/api/v1/push"
+        
   mosquitto:
     image: eclipse-mosquitto:latest
     ports:
@@ -47,8 +54,12 @@ services:
     - ${MOSQUITTO_FOLDER_CONFIG}:/mosquitto/config
     - ${MOSQUITTO_FOLDER_DATA}:/mosquitto/data
     - ${MOSQUITTO_FOLDER_LOG}:/mosquitto/log
-    restart: unless-stopped
-  
+    restart: unless-stopped    
+    logging:
+      driver: loki:latest
+      options:
+        loki-url: "http://localhost:3100/loki/api/v1/push"
+        
   esphome:
     image: esphome/esphome:latest
     ports:
@@ -58,13 +69,20 @@ services:
     volumes:
     - ${ESPHOME_FOLDER_CONFIG}:/config
     - ${ESPHOME_FOLDER_LOCALTIME}:/etc/localtime
-    restart: unless-stopped
-  
+    restart: unless-stopped    
+    logging:
+      driver: loki:latest
+      options:
+        loki-url: "http://localhost:3100/loki/api/v1/push"
+        
   node_red:
     image: nodered/node-red:2.1.4-1
     ports:
     - 1880:1880
     volumes:
     - ${NODERED_FOLDER_DATA}:/data
-    restart: unless-stopped
-
+    restart: unless-stopped    
+    logging:
+      driver: loki:latest
+      options:
+        loki-url: "http://localhost:3100/loki/api/v1/push"
