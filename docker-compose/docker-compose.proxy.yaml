@@ -37,8 +37,6 @@ services:
   grafana:
     image: grafana/grafana-oss:8.3.3
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=Europe/Brussels
     labels:
       traefik.enable: "true"
