@@ -54,7 +54,7 @@ services:
     - published: ${GRAFANA_PORT}
       target: 3000
     restart: unless-stopped
-    user: '1000'
+    user: '104'
     volumes:
     - ${GRAFANA_FOLDER_DATA}:/var/lib/grafana:rw    
     logging:
