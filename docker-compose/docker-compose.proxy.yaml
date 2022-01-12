@@ -37,7 +37,6 @@ services:
   grafana:
     image: grafana/grafana-oss:8.3.3
     environment:
-      - GF_INSTALL_PLUGINS=grafana-piechart-panel
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Brussels
