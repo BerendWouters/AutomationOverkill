@@ -94,7 +94,7 @@ services:
         condition: service_started
 
   homeassistant:
-    image: homeassistant/home-assistant:latest
+    image: homeassistant/home-assistant:stable
     environment:
     - PUID=1000
     - PGID=1000
