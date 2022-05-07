@@ -10,12 +10,16 @@ services:
     ports:
     - published: ${CADVISOR_PORT}
       target: 8080
+    restart: unless-stopped
+    devices:
+      - "/dev/kmsg:/dev/kmsg"
     volumes:
-    - /:/rootfs:ro
-    - /var/run:/var/run:rw
-    - /sys:/sys:ro
-    - ${DOCKER_FOLDER_VARLIB}:/var/lib/docker:ro
-    - /dev/disk/:/dev/disk:ro
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - /sys:/sys:ro
+      - ${DOCKER_FOLDER_VARLIB}:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
     command:
     - '-housekeeping_interval=30s'
     - '-docker_only=true'    
