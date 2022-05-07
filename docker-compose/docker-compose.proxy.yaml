@@ -166,8 +166,6 @@ services:
       --providers.docker.exposedByDefault=false
       --entrypoints.web.address=:80 
       --entrypoints.websecure.address=:443 
-      --entrypoints.openttd-tcp.address=:3979/tcp 
-      --entrypoints.openttd-udp.address=:3979/udp
       --certificatesresolvers.myresolver.acme.httpchallenge=true
       --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web 
       --certificatesresolvers.myresolver.acme.email=${LETSENCRYPT_EMAIL}
