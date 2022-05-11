@@ -47,6 +47,7 @@ services:
     ports:
     - published: ${INFLUXDB_PORT}
       target: 8086
+    restart: unless-stopped
     volumes:
     - ${INFLUXDB_FOLDER_DATA}:/var/lib/influxdb:rw    
     - ${INFLUXDB2_FOLDER_DATA}:/var/lib/influxdb2:rw
@@ -60,6 +61,7 @@ services:
     - published: ${PROMETHEUS_PORT}
       target: 9090
     user: root
+    restart: unless-stopped
     volumes:
     - ${PROMETHEUS_FOLDER_DATA}:/prometheus
     - ${PROMETHEUS_FOLDER_CONFIG}:/etc/prometheus/prometheus.yml
@@ -73,6 +75,7 @@ services:
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
+    restart: unless-stopped
     volumes:
     - ${LOKI_FOLDER_ETC}/local-config.yaml:/etc/loki/local-config.yaml
     restart: unless-stopped
@@ -82,6 +85,7 @@ services:
     volumes:
       - /var/log:/var/log
     command: -config.file=/etc/promtail/config.yml
+    restart: unless-stopped
     volumes:
       - ${PROMTAIL_FOLDER_ETC}:/etc/promtail
 
