@@ -213,6 +213,7 @@ services:
     - protocol: tcp
       published: ${SICKCHILL_PORT}
       target: 8081
+    restart: unless-stopped
     volumes:
     - ${SICKCHILL_FOLDER_DOWNLOADS}:/tvshows/downloads:rw
     - ${SICKCHILL_FOLDER_TVSHOWS}:/series:rw
