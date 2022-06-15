@@ -227,17 +227,24 @@ services:
     image: jellyfin/jellyfin
     container_name: jellyfin
     user: 1000:1000
+    group_add:
+      - 109
     volumes:
       - ${JELLYFIN_FOLDER_CONFIG}:/config
       - ${JELLYFIN_FOLDER_CACHE}:/cache
       - ${RADARR_FOLDER_MOVIES}:/movies:ro
       - ${SICKCHILL_FOLDER_TVSHOWS}:/tvshows:ro
+    devices:
+    # Hardware encoding
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/card0:/dev/dri/card0
     restart: "unless-stopped"
     ports:
       - 8096:8096
     # Optional - alternative address used for autodiscovery
     environment:
       - JELLYFIN_PublishedServerUrl=https://jellyfin.vnvie.ws
+      
     labels:
       traefik.enable: "true"
       traefik.http.middlewares.jellyfin_https_redirect.redirectscheme.permanent: "true"
