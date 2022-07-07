@@ -259,27 +259,25 @@ services:
       reverse-proxy:
         condition: service_started
         
-  quickshare:
-    image: hexxa/quickshare
-    container_name: quickshare
+  youtransfer:
+    image: hexxa/youtransfer:stable
+    container_name: youtransfer
     volumes:
-      - ${QUICKSHARE_ROOT}:/quickshare/root
+      - ${YOUTRANSFER_UPLOADS}:/opt/youtransfer/uploads
+      - ${YOUTRANSFER_CONFIG}:/opt/youtransfer/config
     restart: "unless-stopped"
     ports:
-      - 8686:8686
-    environment:
-      - DEFAULTADMIN=${QUICKSHARE_ADMIN}
-      - DEFAULTADMINPWD=${QUICKSHARE_ADMINPWD}
+      - 8686:5000
     labels:
       traefik.enable: "true"
-      traefik.http.middlewares.quickshare_https_redirect.redirectscheme.permanent: "true"
-      traefik.http.middlewares.quickshare_https_redirect.redirectscheme.scheme: https
-      traefik.http.routers.quickshare_http.entrypoints: web
-      traefik.http.routers.quickshare_http.middlewares: quickshare_https_redirect
-      traefik.http.routers.quickshare_http.rule: Host(`quickshare.${DNS_HOSTNAME}`)
-      traefik.http.routers.quickshare_https.entrypoints: websecure
-      traefik.http.routers.quickshare_https.rule: Host(`quickshare.${DNS_HOSTNAME}`)
-      traefik.http.routers.quickshare_https.tls.certresolver: myresolver
+      traefik.http.middlewares.youtransfer_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.youtransfer_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.youtransfer_http.entrypoints: web
+      traefik.http.routers.youtransfer_http.middlewares: youtransfer_https_redirect
+      traefik.http.routers.youtransfer_http.rule: Host(`youtransfer.${DNS_HOSTNAME}`)
+      traefik.http.routers.youtransfer_https.entrypoints: websecure
+      traefik.http.routers.youtransfer_https.rule: Host(`youtransfer.${DNS_HOSTNAME}`)
+      traefik.http.routers.youtransfer_https.tls.certresolver: myresolver
     depends_on:
       reverse-proxy:
         condition: service_started
