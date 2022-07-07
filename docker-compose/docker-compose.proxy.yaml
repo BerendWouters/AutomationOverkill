@@ -260,7 +260,7 @@ services:
         condition: service_started
         
   youtransfer:
-    image: hexxa/youtransfer:stable
+    image: remie/youtransfer:stable
     container_name: youtransfer
     volumes:
       - ${YOUTRANSFER_UPLOADS}:/opt/youtransfer/uploads
