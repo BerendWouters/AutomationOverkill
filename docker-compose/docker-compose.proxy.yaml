@@ -268,8 +268,8 @@ services:
     ports:
       - 8686:8686
     environment:
-      DEFAULTADMIN: ${QUICKSHARE_ADMIN}
-      DEFAULTADMINPWD: ${QUICKSHARE_ADMINPWD}
+      - DEFAULTADMIN=${QUICKSHARE_ADMIN}
+      - DEFAULTADMINPWD=${QUICKSHARE_ADMINPWD}
     labels:
       traefik.enable: "true"
       traefik.http.middlewares.jellyfin_https_redirect.redirectscheme.permanent: "true"
