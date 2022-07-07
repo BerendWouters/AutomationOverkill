@@ -264,7 +264,7 @@ services:
     container_name: quickshare
     volumes:
       - ${QUICKSHARE_ROOT}:/quickshare/root
-   restart: "unless-stopped"
+    restart: "unless-stopped"
     ports:
       - 8686:8686
     environment:
