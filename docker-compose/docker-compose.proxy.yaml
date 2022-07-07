@@ -250,7 +250,7 @@ services:
       traefik.http.middlewares.jellyfin_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.jellyfin_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.jellyfin_http.entrypoints: web
-      traefik.http.routers.jellyfin_http.middlewares: bazarr_https_redirect
+      traefik.http.routers.jellyfin_http.middlewares: jellyfin_https_redirect
       traefik.http.routers.jellyfin_http.rule: Host(`jellyfin.${DNS_HOSTNAME}`)
       traefik.http.routers.jellyfin_https.entrypoints: websecure
       traefik.http.routers.jellyfin_https.rule: Host(`jellyfin.${DNS_HOSTNAME}`)
@@ -258,3 +258,29 @@ services:
     depends_on:
       reverse-proxy:
         condition: service_started
+        
+  quickshare:
+    image: hexxa/quickshare
+    container_name: quickshare
+    volumes:
+      - ${QUICKSHARE_ROOT}:/quickshare/root
+   restart: "unless-stopped"
+    ports:
+      - 8686:8686
+    environment:
+      DEFAULTADMIN: ${QUICKSHARE_ADMIN}
+      DEFAULTADMINPWD: ${QUICKSHARE_ADMINPWD}
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.jellyfin_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.jellyfin_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.jellyfin_http.entrypoints: web
+      traefik.http.routers.jellyfin_http.middlewares: quickshare_https_redirect
+      traefik.http.routers.jellyfin_http.rule: Host(`quickshare.${DNS_HOSTNAME}`)
+      traefik.http.routers.jellyfin_https.entrypoints: websecure
+      traefik.http.routers.jellyfin_https.rule: Host(`quickshare.${DNS_HOSTNAME}`)
+      traefik.http.routers.jellyfin_https.tls.certresolver: myresolver
+    depends_on:
+      reverse-proxy:
+        condition: service_started
+        
