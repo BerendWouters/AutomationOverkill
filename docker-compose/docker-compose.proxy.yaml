@@ -283,7 +283,7 @@ services:
         condition: service_started
         
   schedule:
-    image: ghcr.io/berendwouters/fri3dschedulemap2022:master
+    image: ghcr.io/berendwouters/fri3dschedulemap2022:latest
     ports:
     - 8888:80   
     labels:
