@@ -281,21 +281,3 @@ services:
     depends_on:
       reverse-proxy:
         condition: service_started
-        
-  schedule:
-    image: ghcr.io/berendwouters/fri3dschedulemap2022:latest
-    ports:
-    - 8888:80   
-    labels:
-      traefik.enable: "true"
-      traefik.http.middlewares.fri3dschedulemap2022_https_redirect.redirectscheme.permanent: "true"
-      traefik.http.middlewares.fri3dschedulemap2022_https_redirect.redirectscheme.scheme: https
-      traefik.http.routers.fri3dschedulemap2022_http.entrypoints: web
-      traefik.http.routers.fri3dschedulemap2022_http.middlewares: fri3dschedulemap2022_https_redirect
-      traefik.http.routers.fri3dschedulemap2022_http.rule: Host(`fri3d-schedule-2022.${DNS_HOSTNAME}`)
-      traefik.http.routers.fri3dschedulemap2022_https.entrypoints: websecure
-      traefik.http.routers.fri3dschedulemap2022_https.rule: Host(`fri3d-schedule-2022.${DNS_HOSTNAME}`)
-      traefik.http.routers.fri3dschedulemap2022_https.tls.certresolver: myresolver
-    depends_on:
-      reverse-proxy:
-        condition: service_started
