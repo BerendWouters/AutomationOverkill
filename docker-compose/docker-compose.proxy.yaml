@@ -117,7 +117,8 @@ services:
     ports:
     - published: ${HOMEASSISTANT_PORT}
       target: 8123
-    - published: 5683
+    - protocol: udp
+      published: 5683
       target: 5683
     restart: unless-stopped
     volumes:
