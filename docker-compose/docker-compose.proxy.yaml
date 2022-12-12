@@ -109,6 +109,7 @@ services:
       traefik.http.routers.homeassistant_https.entrypoints: websecure
       traefik.http.routers.homeassistant_https.rule: Host(`homeassistant.${DNS_HOSTNAME}`)
       traefik.http.routers.homeassistant_https.tls.certresolver: myresolver
+      traefik.http.services.homeassistant_https.loadbalancer.server.port: 8123
     logging:
       driver: loki:latest
       options:
