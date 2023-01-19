@@ -315,7 +315,7 @@ services:
       traefik.http.routers.dashy_http.rule: Host(`dashy.${DNS_HOSTNAME}`)
       traefik.http.routers.dashy_https.entrypoints: websecure
       traefik.http.routers.dashy_https.rule: Host(`dashy.${DNS_HOSTNAME}`)
-      traefik.http.routers.youtransfer_https.tls.certresolver: myresolver
+      traefik.http.routers.dashy_https.tls.certresolver: myresolver
     # Configure healthchecks
     healthcheck:
       test: ['CMD', 'node', '/app/services/healthcheck']
