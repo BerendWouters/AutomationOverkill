@@ -326,3 +326,15 @@ services:
     depends_on:
       reverse-proxy:
         condition: service_started
+        
+  overseerr:
+    image: sctx/overseerr:latest
+    container_name: overseerr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=Europe/Brussels
+    ports:
+      - 5055:5055
+    volumes:
+      - ${OVERSEERR_CONFIG}:/app/config
+    restart: unless-stopped
