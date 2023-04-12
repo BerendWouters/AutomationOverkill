@@ -286,55 +286,16 @@ services:
       traefik.http.routers.youtransfer_https.tls.certresolver: myresolver
     depends_on:
       reverse-proxy:
-        condition: service_started
-        
-  dashy:
-    # To build from source, replace 'image: lissy93/dashy' with 'build: .'
-    # build: .
-    image: lissy93/dashy
-    container_name: Dashy
-    # Pass in your config file below, by specifying the path on your host machine
-    volumes:
-      - ${DASHY_CONFIG}:/app/public
-    ports:
-      - 4000:80
-    # Set any environmental variables
-    environment:
-      - NODE_ENV=production
-    # Specify your user ID and group ID. You can find this by running `id -u` and `id -g`
-    #  - UID=1000
-    #  - GID=1000
-    # Specify restart policy
-    restart: unless-stopped
-    labels:
-      traefik.enable: "true"
-      traefik.http.middlewares.dashy_https_redirect.redirectscheme.permanent: "true"
-      traefik.http.middlewares.dashy_https_redirect.redirectscheme.scheme: https
-      traefik.http.routers.dashy_http.entrypoints: web
-      traefik.http.routers.dashy_http.middlewares: dashy_https_redirect
-      traefik.http.routers.dashy_http.rule: Host(`dashy.${DNS_HOSTNAME}`)
-      traefik.http.routers.dashy_https.entrypoints: websecure
-      traefik.http.routers.dashy_https.rule: Host(`dashy.${DNS_HOSTNAME}`)
-      traefik.http.routers.dashy_https.tls.certresolver: myresolver
-    # Configure healthchecks
-    healthcheck:
-      test: ['CMD', 'node', '/app/services/healthcheck']
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    depends_on:
-      reverse-proxy:
-        condition: service_started
-        
-  overseerr:
-    image: sctx/overseerr:latest
-    container_name: overseerr
+        condition: service_started        
+  
+  jellyseerr:
+    image: fallenbagel/jellyseerr:develop
+    container_name: jellyseerr
     environment:
       - LOG_LEVEL=debug
       - TZ=Europe/Brussels
     ports:
       - 5055:5055
     volumes:
-      - ${OVERSEERR_CONFIG}:/app/config
+      - ${JELLYSEERR_CONFIG}:/app/config
     restart: unless-stopped
