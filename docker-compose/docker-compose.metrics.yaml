@@ -94,6 +94,7 @@ services:
     container_name: uptime-kuma
     volumes:
       - ${UPTIME_KUMA_APPDATA}:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - 3031:3001
     restart: always
