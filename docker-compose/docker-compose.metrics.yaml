@@ -88,5 +88,13 @@ services:
     restart: unless-stopped
     volumes:
       - ${PROMTAIL_FOLDER_ETC}:/etc/promtail
-
+  
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: uptime-kuma
+    volumes:
+      - ${UPTIME_KUMA_APPDATA}:/app/data
+    ports:
+      - 3031:3001
+    restart: always
 
