@@ -287,7 +287,25 @@ services:
     depends_on:
       reverse-proxy:
         condition: service_started        
-  
+  it-tools:
+    image: corentinth/it-tools:latest
+    container_name: it-tools
+    restart: "unless-stopped"
+    ports:
+      - 8097:8080
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.it_tools_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.it_tools_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.it_tools_http.entrypoints: web
+      traefik.http.routers.it_tools_http.middlewares: it_tools_https_redirect
+      traefik.http.routers.it_tools_http.rule: Host(`it-tools.${DNS_HOSTNAME}`) || Host(`tools.${DNS_HOSTNAME}`)|| Host(`ittools.${DNS_HOSTNAME}`)
+      traefik.http.routers.it_tools_https.entrypoints: websecure
+      traefik.http.routers.it_tools_https.rule: Host(`it-tools.${DNS_HOSTNAME}`) || Host(`tools.${DNS_HOSTNAME}`)|| Host(`ittools.${DNS_HOSTNAME}`)
+      traefik.http.routers.it_tools_https.tls.certresolver: myresolver
+    depends_on:
+      reverse-proxy:
+        condition: service_started    
   jellyseerr:
     image: fallenbagel/jellyseerr:develop
     container_name: jellyseerr
