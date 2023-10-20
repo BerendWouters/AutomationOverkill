@@ -3,7 +3,7 @@ version: '3.0'
 services:
 
   transmission:
-    image: linuxserver/transmission:2021.10.28
+    image: linuxserver/transmission:4.0.4
     environment:    
     - TZ=Europe/Brussels
     - PGID=1000
@@ -13,6 +13,7 @@ services:
     - HOME=/root
     ports:
     - 51413:51413
+    - 51413:51413/udp
     - ${TRANSMISSION_PORT}:9091
     restart: unless-stopped
     volumes:
