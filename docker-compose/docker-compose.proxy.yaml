@@ -62,7 +62,25 @@ services:
     depends_on:
       reverse-proxy:
         condition: service_started
-
+  homarr:
+    container_name: homarr
+    image: ghcr.io/ajnart/homarr:latest
+    restart: unless-stopped
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.homarr_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.homarr_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.homarr_http.entrypoints: web
+      traefik.http.routers.homarr_http.middlewares: homarr_https_redirect
+      traefik.http.routers.homarr_http.rule: Host(`homarr.${DNS_HOSTNAME}`)
+      traefik.http.routers.homarr_https.entrypoints: websecure
+      traefik.http.routers.homarr_https.rule: Host(`homarr.${DNS_HOSTNAME}`)
+      traefik.http.routers.homarr_https.tls.certresolver: myresolver
+    volumes:
+      - ${HOMARR_FOLDER_CONFIG}/configs:/app/data/configs
+      - ${HOMARR_FOLDER_CONFIG}/icons:/app/public/icons
+    ports:
+      - '${HOMARRL_PORT}:7575'
   heimdall:
     environment:
     - PUID=1000
