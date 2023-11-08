@@ -79,6 +79,7 @@ services:
     volumes:
       - ${HOMARR_FOLDER_CONFIG}/configs:/app/data/configs
       - ${HOMARR_FOLDER_CONFIG}/icons:/app/public/icons
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - '${HOMARRL_PORT}:7575'
   heimdall:
