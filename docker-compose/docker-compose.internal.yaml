@@ -92,7 +92,7 @@ services:
     privileged: true
     networks:
       host: {}
-   volumes:
+    volumes:
         - ${MUSICASSISTANT_SERVER}:/data
     logging:
       driver: loki:latest
