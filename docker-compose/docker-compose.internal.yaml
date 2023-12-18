@@ -89,6 +89,8 @@ services:
         loki-url: "http://localhost:3100/loki/api/v1/push"
   music-assistant:
     image: ghcr.io/music-assistant/server
+    ports:
+      - 8196:8096
     volumes:
         - ${MUSICASSISTANT_SERVER}:/data
     logging:
