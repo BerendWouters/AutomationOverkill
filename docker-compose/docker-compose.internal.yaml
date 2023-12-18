@@ -98,6 +98,5 @@ services:
       driver: loki:latest
       options:
         loki-url: "http://localhost:3100/loki/api/v1/push"
-        networks:
 networks:
   host: {}
