@@ -90,7 +90,10 @@ services:
   music-assistant:
     image: ghcr.io/music-assistant/server
     ports:
+      - 8195:8095
       - 8196:8096
+      - 3483:3483
+      - 9190:9090
     volumes:
         - ${MUSICASSISTANT_SERVER}:/data
     logging:
