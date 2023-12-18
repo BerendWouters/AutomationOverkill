@@ -89,14 +89,15 @@ services:
         loki-url: "http://localhost:3100/loki/api/v1/push"
   music-assistant:
     image: ghcr.io/music-assistant/server
-    ports:
-      - 8195:8095
-      - 8196:8096
-      - 3483:3483
-      - 9190:9090
-    volumes:
+    privileged: true
+    networks:
+      host: {}
+   volumes:
         - ${MUSICASSISTANT_SERVER}:/data
     logging:
       driver: loki:latest
       options:
         loki-url: "http://localhost:3100/loki/api/v1/push"
+        networks:
+networks:
+  host: {}
