@@ -1,6 +1,32 @@
 version: '3.0'
 
 services:
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ${SONARR_FOLDER_CONFIG}:/config
+      - ${SONARR_FOLDER_TVSHOWS}:/tv #optional
+      - ${SONARR_FOLDER_DOWNLOADS}:/downloads #optional
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ${PROWLARR_FOLDER_CONFIG}:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
   bazarr:
     image: ghcr.io/linuxserver/bazarr
     environment:
