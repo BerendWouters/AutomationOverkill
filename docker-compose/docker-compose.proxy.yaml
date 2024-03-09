@@ -283,7 +283,7 @@ services:
       target: 8081
     restart: unless-stopped
     volumes:
-    - ${SICKCHILL_FOLDER_DOWNLOADS}:/tvshows/downloads:rw
+    - ${SICKCHILL_FOLDER_DOWNLOADS}:/downloads/tvshows:rw
     - ${SICKCHILL_FOLDER_TVSHOWS}:/series:rw
     - ${SICKCHILL_FOLDER_CONFIG}:/config:rw
     - ${SICKCHILL_FOLDER_DATA}:/data:rw
