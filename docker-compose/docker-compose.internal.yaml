@@ -15,7 +15,6 @@ services:
     - 51413:51413
     - 51413:51413/udp
     - ${TRANSMISSION_PORT}:9091
-    - 51413:51413
     restart: unless-stopped
     volumes:
     - ${TRANSMISSION_FOLDER_DEFAULT_DOWNLOAD}:/downloads
