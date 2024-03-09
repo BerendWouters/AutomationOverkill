@@ -18,8 +18,8 @@ services:
     restart: unless-stopped
     volumes:
     - ${TRANSMISSION_FOLDER_DEFAULT_DOWNLOAD}:/downloads
-    - ${TRANSMISSION_FOLDER_TVSHOWS_DOWNLOAD}:/tvshows/downloads
-    - ${TRANSMISSION_FOLDER_MOVIES_DOWNLOAD}:/movies/downloads
+    - ${TRANSMISSION_FOLDER_TVSHOWS_DOWNLOAD}:/downloads/tvshows
+    - ${TRANSMISSION_FOLDER_MOVIES_DOWNLOAD}:/downloads/movies
     - ${TRANSMISSION_FOLDER_CONFIG}:/config
     - ${TRANSMISSION_FOLDER_DATA}:/data  
     logging:
