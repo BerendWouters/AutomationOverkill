@@ -15,6 +15,23 @@ services:
     ports:
       - 8989:8989
     restart: unless-stopped
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.sonarr_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.sonarr_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.sonarr_http.entrypoints: web
+      traefik.http.routers.sonarr_http.middlewares: sonarr_https_redirect
+      traefik.http.routers.sonarr_http.rule: Host(`sonarr.${DNS_HOSTNAME}`)
+      traefik.http.routers.sonarr_https.entrypoints: websecure
+      traefik.http.routers.sonarr_https.rule: Host(`sonarr.${DNS_HOSTNAME}`)
+      traefik.http.routers.sonarr_https.tls.certresolver: myresolver
+    logging:
+      driver: loki:latest
+      options:
+        loki-url: "http://localhost:3100/loki/api/v1/push"
+    depends_on:
+      reverse-proxy:
+        condition: service_started
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
