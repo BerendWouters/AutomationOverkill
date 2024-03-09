@@ -7,7 +7,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
+      - TZ=Europe/Brussels
     volumes:
       - ${SONARR_FOLDER_CONFIG}:/config
       - ${SONARR_FOLDER_TVSHOWS}:/tv #optional
@@ -21,7 +21,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
+      - TZ=Europe/Brussels
     volumes:
       - ${PROWLARR_FOLDER_CONFIG}:/config
     ports:
