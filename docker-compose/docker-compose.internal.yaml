@@ -87,16 +87,41 @@ services:
       driver: loki:latest
       options:
         loki-url: "http://localhost:3100/loki/api/v1/push"
-  music-assistant:
-    image: ghcr.io/music-assistant/server
-    privileged: true
-    networks:
-      host: {}
+  unpackerr:
+    image: golift/unpackerr
+    container_name: unpackerr
     volumes:
-        - ${MUSICASSISTANT_SERVER}:/data
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
+      # You need at least this one volume mapped so Unpackerr can find your files to extract.
+      # Make sure this matches your Starr apps; the folder mount (/downloads or /data) should be identical.
+      - /data/downloads:/downloads
+    restart: always
+    # Get the user:group correct so unpackerr can read and write to your files.
+    user: 1000:1000
+    # What you see below are defaults for this compose. You only need to modify things specific to your environment.
+    # Remove apps and feature configs you do not use or need. 
+    # ie. Remove all lines that begin with UN_CMDHOOK, UN_WEBHOOK, UN_FOLDER, UN_WEBSERVER, and other apps you do not use.
+    environment:
+      - TZ=${TZ}
+      # General config
+      - UN_DEBUG=false
+      - UN_LOG_FILE=
+      - UN_LOG_FILES=10
+      - UN_LOG_FILE_MB=10
+      - UN_INTERVAL=2m
+      - UN_START_DELAY=1m
+      - UN_RETRY_DELAY=5m
+      - UN_MAX_RETRIES=3
+      - UN_PARALLEL=1
+      - UN_FILE_MODE=0644
+      - UN_DIR_MODE=0755
+      # Sonarr Config
+      - UN_SONARR_0_URL=http://sonarr:8989
+      - UN_SONARR_0_API_KEY=
+      - UN_SONARR_0_PATHS_0=/downloads
+      - UN_SONARR_0_PROTOCOLS=torrent
+      - UN_SONARR_0_TIMEOUT=10s
+      - UN_SONARR_0_DELETE_ORIG=false
+      - UN_SONARR_0_DELETE_DELAY=5m
+
 networks:
   host: {}
