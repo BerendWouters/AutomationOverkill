@@ -133,5 +133,4 @@ services:
       options:
         loki-url: "http://localhost:3100/loki/api/v1/push"
 networks:
-  host:
-    external: true
+  host: {}
