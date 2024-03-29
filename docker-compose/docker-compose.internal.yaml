@@ -93,7 +93,7 @@ services:
     volumes:
       # You need at least this one volume mapped so Unpackerr can find your files to extract.
       # Make sure this matches your Starr apps; the folder mount (/downloads or /data) should be identical.
-      - /data/downloads:/downloads
+      - ${TRANSMISSION_FOLDER_TVSHOWS_DOWNLOAD}:/downloads
       - ${UNPACKERR_FOLDER_DATA}/logs:/logs
     restart: always
     # Get the user:group correct so unpackerr can read and write to your files.
