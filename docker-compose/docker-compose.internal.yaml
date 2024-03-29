@@ -94,6 +94,7 @@ services:
       # You need at least this one volume mapped so Unpackerr can find your files to extract.
       # Make sure this matches your Starr apps; the folder mount (/downloads or /data) should be identical.
       - /data/downloads:/downloads
+      - ${UNPACKERR_FOLDER_DATA}/logs:/logs
     restart: always
     # Get the user:group correct so unpackerr can read and write to your files.
     user: 1000:1000
@@ -104,7 +105,7 @@ services:
       - TZ=${TZ}
       # General config
       - UN_DEBUG=false
-      - UN_LOG_FILE=
+      - UN_LOG_FILE=/logs
       - UN_LOG_FILES=10
       - UN_LOG_FILE_MB=10
       - UN_INTERVAL=2m
@@ -115,8 +116,8 @@ services:
       - UN_FILE_MODE=0644
       - UN_DIR_MODE=0755
       # Sonarr Config
-      - UN_SONARR_0_URL=http://sonarr:8989
-      - UN_SONARR_0_API_KEY=
+      - UN_SONARR_0_URL=${SONARR_URI}:8989
+      - UN_SONARR_0_API_KEY=${SONARR_API_KEY}
       - UN_SONARR_0_PATHS_0=/downloads
       - UN_SONARR_0_PROTOCOLS=torrent
       - UN_SONARR_0_TIMEOUT=10s
