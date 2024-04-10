@@ -335,7 +335,7 @@ services:
     restart: "unless-stopped"    
     labels:
       traefik.enable: "true"
-      traefik.port: 5000
+      traefik.http.services.youtransfer.loadbalancer.server.port=8080: 5000
       traefik.http.middlewares.youtransfer_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.youtransfer_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.youtransfer_http.entrypoints: web
