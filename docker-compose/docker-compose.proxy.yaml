@@ -312,7 +312,6 @@ services:
     # Optional - alternative address used for autodiscovery
     environment:
       - JELLYFIN_PublishedServerUrl=https://jellyfin.vnvie.ws
-      
     labels:
       traefik.enable: "true"
       traefik.http.middlewares.jellyfin_https_redirect.redirectscheme.permanent: "true"
@@ -333,9 +332,7 @@ services:
     volumes:
       - ${YOUTRANSFER_UPLOADS}:/opt/youtransfer/uploads
       - ${YOUTRANSFER_CONFIG}:/opt/youtransfer/config
-    restart: "unless-stopped"
-    ports:
-      - 8686:5000
+    restart: "unless-stopped"    
     labels:
       traefik.enable: "true"
       traefik.http.middlewares.youtransfer_https_redirect.redirectscheme.permanent: "true"
