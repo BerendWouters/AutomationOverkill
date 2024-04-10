@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
     labels:
       traefik.enable: "true"
-      traefik.http.services.sonarr.homeassistant.server.port: 8989
+      traefik.http.services.sonarr.loadbalancer.server.port: 8989
       traefik.http.middlewares.sonarr_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.sonarr_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.sonarr_http.entrypoints: web
@@ -57,7 +57,7 @@ services:
       - ${BAZARR_FOLDER_TVSHOWS_DOWNLOADS}:/downloads/series
     labels:
       traefik.enable: "true"
-      traefik.http.services.bazarr.homeassistant.server.port: 6767
+      traefik.http.services.bazarr.loadbalancer.server.port: 6767
       traefik.http.middlewares.bazarr_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.bazarr_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.bazarr_http.entrypoints: web
@@ -81,7 +81,7 @@ services:
       - TZ=Europe/Brussels
     labels:
       traefik.enable: "true"
-      traefik.http.services.grafana.homeassistant.server.port: 3000
+      traefik.http.services.grafana.loadbalancer.server.port: 3000
       traefik.http.middlewares.grafana_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.grafana_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.grafana_http.entrypoints: web
@@ -107,7 +107,7 @@ services:
     restart: unless-stopped
     labels:
       traefik.enable: "true"
-      traefik.http.services.homarr.homeassistant.server.port: 7575
+      traefik.http.services.homarr.loadbalancer.server.port: 7575
       traefik.http.middlewares.homarr_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.homarr_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.homarr_http.entrypoints: web
@@ -128,7 +128,7 @@ services:
     image: linuxserver/heimdall
     labels:
       traefik.enable: "true"
-      traefik.http.services.heimdall.homeassistant.server.port: 80
+      traefik.http.services.heimdall.loadbalancer.server.port: 80
       traefik.http.middlewares.heimdall_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.heimdall_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.heimdall_http.entrypoints: web
@@ -156,7 +156,7 @@ services:
     - TZ=Europe/Brussels
     labels:
       traefik.enable: "true"
-      traefik.http.services.homeassistant.homeassistant.server.port: 8123
+      traefik.http.services.homeassistant.loadbalancer.server.port: 8123
       traefik.http.middlewares.homeassistant_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.homeassistant_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.homeassistant_http.entrypoints: web
