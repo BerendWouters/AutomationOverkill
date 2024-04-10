@@ -12,11 +12,10 @@ services:
       - ${SONARR_FOLDER_CONFIG}:/config
       - ${SONARR_FOLDER_TVSHOWS}:/tv #optional
       - ${SONARR_FOLDER_DOWNLOADS}:/downloads #optional
-    ports:
-      - 8989:8989
     restart: unless-stopped
     labels:
       traefik.enable: "true"
+      traefik.http.services.sonarr.homeassistant.server.port: 8989
       traefik.http.middlewares.sonarr_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.sonarr_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.sonarr_http.entrypoints: web
@@ -58,6 +57,7 @@ services:
       - ${BAZARR_FOLDER_TVSHOWS_DOWNLOADS}:/downloads/series
     labels:
       traefik.enable: "true"
+      traefik.http.services.bazarr.homeassistant.server.port: 6767
       traefik.http.middlewares.bazarr_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.bazarr_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.bazarr_http.entrypoints: web
@@ -66,8 +66,6 @@ services:
       traefik.http.routers.bazarr_https.entrypoints: websecure
       traefik.http.routers.bazarr_https.rule: Host(`bazarr.${DNS_HOSTNAME}`)
       traefik.http.routers.bazarr_https.tls.certresolver: myresolver
-    ports:
-      - ${BAZARR_PORT}:6767
     restart: unless-stopped
     logging:
       driver: loki:latest
@@ -83,6 +81,7 @@ services:
       - TZ=Europe/Brussels
     labels:
       traefik.enable: "true"
+      traefik.http.services.grafana.homeassistant.server.port: 3000
       traefik.http.middlewares.grafana_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.grafana_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.grafana_http.entrypoints: web
@@ -91,9 +90,6 @@ services:
       traefik.http.routers.grafana_https.entrypoints: websecure
       traefik.http.routers.grafana_https.rule: Host(`grafana.${DNS_HOSTNAME}`)
       traefik.http.routers.grafana_https.tls.certresolver: myresolver
-    ports:
-    - published: ${GRAFANA_PORT}
-      target: 3000
     restart: unless-stopped
     user: root
     volumes:
@@ -111,6 +107,7 @@ services:
     restart: unless-stopped
     labels:
       traefik.enable: "true"
+      traefik.http.services.homarr.homeassistant.server.port: 7575
       traefik.http.middlewares.homarr_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.homarr_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.homarr_http.entrypoints: web
@@ -123,8 +120,6 @@ services:
       - ${HOMARR_FOLDER_CONFIG}/configs:/app/data/configs
       - ${HOMARR_FOLDER_CONFIG}/icons:/app/public/icons
       - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - '${HOMARRL_PORT}:7575'
   heimdall:
     environment:
     - PUID=1000
@@ -133,6 +128,7 @@ services:
     image: linuxserver/heimdall
     labels:
       traefik.enable: "true"
+      traefik.http.services.heimdall.homeassistant.server.port: 80
       traefik.http.middlewares.heimdall_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.heimdall_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.heimdall_http.entrypoints: web
@@ -141,9 +137,6 @@ services:
       traefik.http.routers.heimdall_https.entrypoints: websecure
       traefik.http.routers.heimdall_https.rule: Host(`heimdall.${DNS_HOSTNAME}`)
       traefik.http.routers.heimdall_https.tls.certresolver: myresolver
-    ports:
-    - published: ${HEIMDALL_PORT}
-      target: 80
     restart: unless-stopped
     volumes:
     - ${HEIMDALL_FOLDER_CONFIG}:/config:rw    
@@ -163,6 +156,7 @@ services:
     - TZ=Europe/Brussels
     labels:
       traefik.enable: "true"
+      traefik.http.services.homeassistant.homeassistant.server.port: 8123
       traefik.http.middlewares.homeassistant_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.homeassistant_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.homeassistant_http.entrypoints: web
@@ -202,6 +196,7 @@ services:
     image: linuxserver/radarr:latest
     labels:
       traefik.enable: "true"
+      traefik.http.services.radarr.loadbalancer.server.port: 7878
       traefik.http.middlewares.radarr_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.radarr_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.radarr_http.entrypoints: web
@@ -214,10 +209,6 @@ services:
       driver: loki:latest
       options:
         loki-url: "http://localhost:3100/loki/api/v1/push"
-    ports:
-    - protocol: tcp
-      published: ${RADARR_PORT}
-      target: 7878
     restart: unless-stopped
     volumes:
     - ${RADARR_FOLDER_COMPLETED}:/completed:rw
@@ -265,6 +256,7 @@ services:
       - TZ=Europe/Brussels
     labels:
       traefik.enable: "true"
+      traefik.http.services.sickchill.loadbalancer.server.port: 8081
       traefik.http.middlewares.sickchill_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.sickchill_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.sickchill_http.entrypoints: web
@@ -277,10 +269,6 @@ services:
       driver: loki:latest
       options:
         loki-url: "http://localhost:3100/loki/api/v1/push"
-    ports:
-    - protocol: tcp
-      published: ${SICKCHILL_PORT}
-      target: 8081
     restart: unless-stopped
     volumes:
     - ${SICKCHILL_FOLDER_DOWNLOADS}:/downloads/tvshows:rw
@@ -307,13 +295,12 @@ services:
       - /dev/dri/renderD128:/dev/dri/renderD128
       - /dev/dri/card0:/dev/dri/card0
     restart: "unless-stopped"
-    ports:
-      - 8096:8096
     # Optional - alternative address used for autodiscovery
     environment:
       - JELLYFIN_PublishedServerUrl=https://jellyfin.vnvie.ws
     labels:
       traefik.enable: "true"
+      traefik.http.services.jellyfin.loadbalancer.server.port: 8096
       traefik.http.middlewares.jellyfin_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.jellyfin_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.jellyfin_http.entrypoints: web
@@ -351,10 +338,9 @@ services:
     image: corentinth/it-tools:latest
     container_name: it-tools
     restart: "unless-stopped"
-    ports:
-      - 8097:8080
     labels:
       traefik.enable: "true"
+      traefik.http.services.it_tools.loadbalancer.server.port: 8080
       traefik.http.middlewares.it_tools_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.it_tools_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.it_tools_http.entrypoints: web
