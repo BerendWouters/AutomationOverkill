@@ -25,7 +25,6 @@ services:
     ports:
     - published: ${CADVISOR_PORT}
       target: 8080
-    restart: unless-stopped
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
