@@ -111,9 +111,13 @@ services:
       - 3031:3001
     restart: always
 
-  dash:
-    image: mauricenino/dashdot:latest
-    restart: unless-stopped
-    privileged: true
-    ports:
-      - '3011:3001'
+  glances:
+    image: nicolargo/glances:latest
+    restart: always
+    pid: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Uncomment the below line if you want glances to display host OS detail instead of container's
+      - /etc/os-release:/etc/os-release:ro
+    environment:
+      - "GLANCES_OPT=-w"
