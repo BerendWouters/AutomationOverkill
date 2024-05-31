@@ -362,3 +362,27 @@ services:
     volumes:
       - ${JELLYSEERR_CONFIG}:/app/config
     restart: unless-stopped
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    volumes:
+      - ${ABS_AUDIOBOOKS}:/audiobooks
+      - ${ABS_PODCASTS}:/podcasts
+      - ${ABS_CONFIG}:/config
+      - ${ABS_METADATA}:/metadata
+    restart: "unless-stopped"
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.audiobookshelf.loadbalancer.server.port: 80
+      traefik.http.middlewares.audiobookshelf_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.audiobookshelf_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.audiobookshelf_http.entrypoints: web
+      traefik.http.routers.audiobookshelf_http.middlewares: audiobookshelf_https_redirect
+      traefik.http.routers.audiobookshelf_http.rule: Host(`audiobookshelf.${DNS_HOSTNAME}`) || Host(`abs.${DNS_HOSTNAME}`)
+      traefik.http.routers.audiobookshelf_https.entrypoints: websecure
+      traefik.http.routers.audiobookshelf_https.rule: Host(`audiobookshelf.${DNS_HOSTNAME}`) || Host(`abs.${DNS_HOSTNAME}`)
+      traefik.http.routers.audiobookshelf_https.tls.certresolver: myresolver
+    depends_on:
+      reverse-proxy:
+        condition: service_started    
+    environment:
+      - TZ=Europe/Brussels
