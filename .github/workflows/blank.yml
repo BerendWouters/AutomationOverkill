@@ -28,5 +28,5 @@ jobs:
         uses: adambirds/docker-compose-action@v1.3.0
         with:
           compose-file: ".//docker-compose/docker-compose.proxy.yaml"
-          compose-flags: "--dry-run up"
+          up-flags: "--dry-run"
     
