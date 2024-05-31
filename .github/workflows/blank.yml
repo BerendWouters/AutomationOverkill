@@ -29,4 +29,40 @@ jobs:
         with:
           compose-file: ".//docker-compose/docker-compose.proxy.yaml"
           up-flags: "--dry-run"
+        env:
+          SONARR_FOLDER_CONFIG: "/home/sonarr"
+          SONARR_FOLDER_TVSHOWS: "/media/tvshows"
+          SONARR_FOLDER_DOWNLOADS: "/media/downloads"
+          DNS_HOSTNAME: "domain.tld"
+          PROWLARR_FOLDER_CONFIG: "/home/prowlarr"
+          BAZARR_FOLDER_CONFIG: "/home/bazarr"
+          BAZARR_FOLDER_MOVIES: "/media/movies"
+          BAZARR_FOLDER_TVSHOWS: "/media/tvshows"
+          BAZARR_FOLDER_MOVIES_DOWNLOADS: "/media/downloads/movies"
+          BAZARR_FOLDER_TVSHOWS_DOWNLOADS: "/media/downloads/tvshows"
+          GRAFANA_FOLDER_DATA: "/home/grafana"
+          HOMARR_FOLDER_CONFIG: "/home/homarr"
+          HEIMDALL_FOLDER_CONFIG: "/home/heimdall"
+          HOMEASSISTANT_PORT: "8080"
+          HOMEASSISTANT_FOLDER_CONFIG: "/home/homeassistant"
+          RADARR_FOLDER_COMPLETED: "/media/completed"
+          RADARR_FOLDER_CONFIG: "/home/radarr"
+          RADARR_FOLDER_DOWNLOADS: "/media/downloads"
+          RADARR_FOLDER_MOVIES: "/media/movies"
+          TRAEFIK_FOLDER_LETSENCRYPT: "/home/traefik/letsencrypt"
+          SICKCHILL_FOLDER_DOWNLOADS: "/media/downloads"
+          SICKCHILL_FOLDER_TVSHOWS: "/media/tvshows"
+          SICKCHILL_FOLDER_CONFIG: "/home/sickchill/config"
+          SICKCHILL_FOLDER_DATA: "/home/sickchill/data"
+          JELLYFIN_FOLDER_CONFIG: "/home/jellyfin/config"
+          JELLYFIN_FOLDER_CACHE: "/home/jellyfin/cache"
+          YOUTRANSFER_UPLOADS: "/home/youtransfer/uploads"
+          YOUTRANSFER_CONFIG: "/home/youtransfer/config"
+          JELLYSEERR_CONFIG: "/home/jellyseer"
+          
+
+
+          
+    
+          
     
