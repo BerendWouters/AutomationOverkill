@@ -310,27 +310,27 @@ services:
       reverse-proxy:
         condition: service_started
         
-  youtransfer:
-    image: remie/youtransfer:stable
-    container_name: youtransfer
-    volumes:
-      - ${YOUTRANSFER_UPLOADS}:/opt/youtransfer/uploads
-      - ${YOUTRANSFER_CONFIG}:/opt/youtransfer/config
-    restart: "unless-stopped"    
-    labels:
-      traefik.enable: "true"
-      traefik.http.services.youtransfer.loadbalancer.server.port: 5000
-      traefik.http.middlewares.youtransfer_https_redirect.redirectscheme.permanent: "true"
-      traefik.http.middlewares.youtransfer_https_redirect.redirectscheme.scheme: https
-      traefik.http.routers.youtransfer_http.entrypoints: web
-      traefik.http.routers.youtransfer_http.middlewares: youtransfer_https_redirect
-      traefik.http.routers.youtransfer_http.rule: Host(`youtransfer.${DNS_HOSTNAME}`)
-      traefik.http.routers.youtransfer_https.entrypoints: websecure
-      traefik.http.routers.youtransfer_https.rule: Host(`youtransfer.${DNS_HOSTNAME}`)
-      traefik.http.routers.youtransfer_https.tls.certresolver: myresolver
-    depends_on:
-      reverse-proxy:
-        condition: service_started        
+  #youtransfer:
+  #  image: remie/youtransfer:stable
+  #  container_name: youtransfer
+  #  volumes:
+  #    - ${YOUTRANSFER_UPLOADS}:/opt/youtransfer/uploads
+  #    - ${YOUTRANSFER_CONFIG}:/opt/youtransfer/config
+  #  restart: "unless-stopped"    
+  #  labels:
+  #    traefik.enable: "true"
+  #    traefik.http.services.youtransfer.loadbalancer.server.port: 5000
+  #    traefik.http.middlewares.youtransfer_https_redirect.redirectscheme.permanent: "true"
+  #    traefik.http.middlewares.youtransfer_https_redirect.redirectscheme.scheme: https
+  #    traefik.http.routers.youtransfer_http.entrypoints: web
+  #    traefik.http.routers.youtransfer_http.middlewares: youtransfer_https_redirect
+  #    traefik.http.routers.youtransfer_http.rule: Host(`youtransfer.${DNS_HOSTNAME}`)
+  #    traefik.http.routers.youtransfer_https.entrypoints: websecure
+  #    traefik.http.routers.youtransfer_https.rule: Host(`youtransfer.${DNS_HOSTNAME}`)
+  #    traefik.http.routers.youtransfer_https.tls.certresolver: myresolver
+  #  depends_on:
+  #    reverse-proxy:
+  #      condition: service_started        
   it-tools:
     image: corentinth/it-tools:latest
     container_name: it-tools
