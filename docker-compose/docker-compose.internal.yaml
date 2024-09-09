@@ -142,7 +142,7 @@ services:
     ports:
       - 5001:80
     volumes:
-      - ../files:/files
+      - ${FRIGG_FILES}:/files
     environment:
       - PathConfiguration__Path=/files
       - FriggContextOptions__ConnectionString=${MONGO_CONNECTIONSTRING}
@@ -151,7 +151,7 @@ services:
   frigg-processor:
     image: ghcr.io/berendwouters/frigg.processor:master
     volumes:
-      - ../files:/files
+      - ${FRIGG_FILES}:/files
     environment:
       - PathConfiguration__Path=/files
       - FriggContextOptions__ConnectionString=${MONGO_CONNECTIONSTRING}
