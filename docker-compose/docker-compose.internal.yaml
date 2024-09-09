@@ -145,7 +145,7 @@ services:
       - ../files:/files
     environment:
       - PathConfiguration__Path=/files
-      - FriggContextOptions__ConnectionString=mongodb://root:example@host.docker.internal:27017?retryWrites=true&w=majority
+      - FriggContextOptions__ConnectionString=${MONGO_CONNECTIONSTRING}
       - FriggContextOptions__DatabaseName=frigg
       - FriggContextOptions__CollectionName=Tracks
   mongo:
