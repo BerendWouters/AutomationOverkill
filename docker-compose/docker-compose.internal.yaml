@@ -137,10 +137,19 @@ services:
     image: ghcr.io/berendwouters/odin:master
     ports:
       - 8884:80
-  frigg:
-    image: ghcr.io/berendwouters/frigg:master
+  frigg-api:
+    image: ghcr.io/berendwouters/frigg.api:master
     ports:
       - 5001:80
+    volumes:
+      - ../files:/files
+    environment:
+      - PathConfiguration__Path=/files
+      - FriggContextOptions__ConnectionString=${MONGO_CONNECTIONSTRING}
+      - FriggContextOptions__DatabaseName=frigg
+      - FriggContextOptions__CollectionName=Tracks
+  frigg-processor:
+    image: ghcr.io/berendwouters/frigg.processor:master
     volumes:
       - ../files:/files
     environment:
