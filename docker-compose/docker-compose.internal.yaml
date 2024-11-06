@@ -175,5 +175,15 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      
+  meshtastic_web:
+    image: ghcr.io/meshtastic/web
+    ports:
+    - 9443:8443
+    restart: unless-stopped    
+    logging:
+      driver: loki:latest
+      options:
+        loki-url: "http://localhost:3100/loki/api/v1/push"
 networks:
   host: {}
