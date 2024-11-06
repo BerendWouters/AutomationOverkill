@@ -179,7 +179,7 @@ services:
   meshtastic_web:
     image: ghcr.io/meshtastic/web
     ports:
-    - 9443:8443
+    - 9943:8443
     restart: unless-stopped    
     logging:
       driver: loki:latest
