@@ -59,6 +59,10 @@ jobs:
           YOUTRANSFER_UPLOADS: "/home/youtransfer/uploads"
           YOUTRANSFER_CONFIG: "/home/youtransfer/config"
           JELLYSEERR_CONFIG: "/home/jellyseer"
+          ABS_METADATA: "/home/abs/metadata"
+          ABS_CONFIG: "/home/abs/config"
+          ABS_PODCASTS: "/home/abs/podcasts"
+          ABS_AUDIOBOOKS: "/home/abs/audiobooks"
           
 
 
