@@ -1,0 +1,31 @@
+# Occasionally, when forgetting to delete *and thrash* the files in transmission, the content remains, but there is no clear link between the files and the deleted torrents
+# This script compares the files in a specific directory and then prints the ones not existing in transmission
+# grabbed from https://unix.stackexchange.com/a/371869
+
+# get a list of all torrents transmission-remote 2.52
+transmission-remote 127.0.0.1 -t all --files > _all_torrents.tmp
+
+# all items in this directory
+for i in *
+do
+        # is it a file or a directory
+        if test -f "$i" -o -d "$i"
+        then
+                # does it NOT exist in the list of all torrent files
+                #if [[ $all_files != *"$i"* ]]
+                if ! grep -Fq "$i" _all_torrents.tmp
+                then
+                        # does it not start with an underscore (my special char for files in directory not related to transmission
+                        if [[ "$i" != _* ]]
+                        then
+                                # delete or move them
+                                echo rm -rf \"$i\"
+                                # rm -rf "$i"
+                                # mv "$i" ../thrash/"$i"
+                        fi
+                fi
+        fi
+done
+
+# clear tmp file
+rm _all_torrents.tmp
