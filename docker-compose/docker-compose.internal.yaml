@@ -137,6 +137,7 @@ services:
     image: ghcr.io/berendwouters/odin:master
     ports:
       - 8884:80
+    restart: unless-stopped    
   frigg-api:
     image: ghcr.io/berendwouters/frigg.api:master
     ports:
@@ -148,6 +149,7 @@ services:
       - FriggContextOptions__ConnectionString=${MONGO_CONNECTIONSTRING}
       - FriggContextOptions__DatabaseName=frigg
       - FriggContextOptions__CollectionName=Tracks
+    restart: unless-stopped    
   frigg-processor:
     image: ghcr.io/berendwouters/frigg.processor:master
     volumes:
@@ -157,6 +159,7 @@ services:
       - FriggContextOptions__ConnectionString=${MONGO_CONNECTIONSTRING}
       - FriggContextOptions__DatabaseName=frigg
       - FriggContextOptions__CollectionName=Tracks
+    restart: unless-stopped    
   mongo:
     image: mongo
     restart: always
