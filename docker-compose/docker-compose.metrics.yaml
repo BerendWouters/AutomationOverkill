@@ -1,6 +1,6 @@
 services:
   node-exporter:
-    image: prom/node-exporter:latest
+    image: prom/node-exporter:v1.9.1
     container_name: node-exporter
     restart: unless-stopped
     volumes:
@@ -15,7 +15,7 @@ services:
     expose:
       - 9100
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor
+    image: gcr.io/cadvisor/cadvisor:v0.52.1
     environment:
     - PUID=1000
     - PGID=1000
@@ -36,7 +36,7 @@ services:
     restart: unless-stopped
 
   telegraf:
-    image: telegraf:latest
+    image: telegraf:1.34.1
     environment:
     - PUID=1000
     - PGID=1000
@@ -110,7 +110,7 @@ services:
     restart: always
 
   glances:
-    image: nicolargo/glances:latest
+    image: nicolargo/glances:4.3.1
     restart: always
     pid: host
     ports:
