@@ -101,7 +101,7 @@ services:
         condition: service_started
   homarr:
     container_name: homarr
-    image: ghcr.io/ajnart/homarr:0.15.9
+    image: ghcr.io/ajnart/homarr:0.15.10
     restart: unless-stopped
     labels:
       traefik.enable: "true"
