@@ -228,7 +228,8 @@ services:
       --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json 
       --metrics.prometheus=true
       --metrics.prometheus.addServicesLabels=true 
-      --metrics.prometheus.addEntryPointsLabels=true    
+      --metrics.prometheus.addEntryPointsLabels=true
+      --core.defaultRuleSyntax=v2
     logging:
       driver: loki:latest
       options:
