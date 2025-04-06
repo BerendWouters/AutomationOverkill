@@ -1,6 +1,6 @@
 services:
   portainer:
-    image: portainer/portainer-ce:2.19.4-alpine
+    image: portainer/portainer-ce:2.28.1-alpine
     environment:
     - TZ=Europe/Brussels
     - PGID=1000
