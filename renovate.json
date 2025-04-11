@@ -3,13 +3,11 @@
   "extends": [
     "config:recommended"
   ],
-  {
   "packageRules": [
-      {
-        "matchDatasources": ["docker"],
-        "matchPackageNames": ["jellyfin/jellyfin"],
-        "versioning": "semver"
-      }
-    ]
-  }
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["jellyfin/jellyfin"],
+      "versioning": "semver"
+    }
+  ]
 }
