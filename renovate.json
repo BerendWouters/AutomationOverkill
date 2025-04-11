@@ -2,5 +2,14 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
-  ]
+  ],
+  {
+  "packageRules": [
+      {
+        "matchDatasources": ["docker"],
+        "matchPackageNames": ["jellyfin/jellyfin"],
+        "versioning": "semver"
+      }
+    ]
+  }
 }
