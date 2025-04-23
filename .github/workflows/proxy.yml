@@ -63,6 +63,7 @@ jobs:
           ABS_CONFIG: "/home/abs/config"
           ABS_PODCASTS: "/home/abs/podcasts"
           ABS_AUDIOBOOKS: "/home/abs/audiobooks"
+          BABYBUDDY_CONFIG: "/home/babybuddy/config"
           
 
 
