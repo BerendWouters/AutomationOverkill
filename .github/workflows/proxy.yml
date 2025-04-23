@@ -64,6 +64,7 @@ jobs:
           ABS_PODCASTS: "/home/abs/podcasts"
           ABS_AUDIOBOOKS: "/home/abs/audiobooks"
           BABYBUDDY_CONFIG: "/home/babybuddy/config"
+          JELLYFIN_FOLDER_TMP: "/tmp/jellyfin"
           
 
 
