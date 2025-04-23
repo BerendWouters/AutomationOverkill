@@ -373,7 +373,7 @@ services:
       traefik.http.middlewares.babybuddy_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.babybuddy_http.entrypoints: web
       traefik.http.routers.babybuddy_http.middlewares: babybuddy_https_redirect
-      traefik.http.routers.babybuddy_http.rule: Host(`babybuddy.${DNS_HOSTNAME}`) || Host(`bb.${DNS_HOSTNAME}`)
+      traefik.http.routers.babybuddy_http.rule: Host(`babybuddy.${DNS_HOSTNAME}`)
       traefik.http.routers.babybuddy_https.entrypoints: websecure
-      traefik.http.routers.babybuddy_https.rule: Host(`babybuddy.${DNS_HOSTNAME}`) || Host(`bb.${DNS_HOSTNAME}`)
+      traefik.http.routers.babybuddy_https.rule: Host(`babybuddy.${DNS_HOSTNAME}`)
       traefik.http.routers.babybuddy_https.tls.certresolver: myresolver
