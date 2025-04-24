@@ -363,7 +363,7 @@ services:
       - TZ=Europe/Brussels
       - CSRF_TRUSTED_ORIGINS=http://10.0.0.100:9800,https://babybuddy.${DNS_HOSTNAME}
     volumes:
-      -  ${BABYBUDDY_CONFIG}:/config
+      - ${BABYBUDDY_CONFIG}:/config
     ports:
       - 9800:8000
     restart: unless-stopped
