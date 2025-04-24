@@ -74,7 +74,7 @@ services:
         condition: service_started
 
   grafana:
-    image: grafana/grafana-oss:11.6.0
+    image: grafana/grafana-oss:11.6.1
     environment:
       - TZ=Europe/Brussels
     labels:
