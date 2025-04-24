@@ -257,6 +257,7 @@ services:
       - ${JELLYFIN_FOLDER_CACHE}:/cache
       - ${RADARR_FOLDER_MOVIES}:/movies:ro
       - ${SICKCHILL_FOLDER_TVSHOWS}:/tvshows:ro
+      - ${JELLYFIN_FOLDER_TMP}:/tmp/jellyfin
     devices:
     # Hardware encoding
       - /dev/dri/renderD128:/dev/dri/renderD128
