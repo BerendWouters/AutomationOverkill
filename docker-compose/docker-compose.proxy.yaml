@@ -261,7 +261,7 @@ services:
     devices:
     # Hardware encoding
       - /dev/dri/renderD128:/dev/dri/renderD128
-    #  - /dev/dri/card0:/dev/dri/card0
+      - /dev/dri/card1:/dev/dri/card0
     restart: "unless-stopped"
     # Optional - alternative address used for autodiscovery
     environment:
