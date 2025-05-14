@@ -22,16 +22,11 @@ As mentioned above, I prefer to run my applications in docker containers. I star
 At first the docker images had hardcoded tags assigned, including the random `:latest` tag, which could cause unexpected upgrades. 
 
 ## Docker compose files
-- Traefik proxy
-- Automation tooling
-- Metric collection
-- Internal networking
+- [Public services](https://github.com/BerendWouters/AutomationOverkill/blob/main/docker-compose/docker-compose.proxy.yaml)
+- [Internal services](https://github.com/BerendWouters/AutomationOverkill/blob/main/docker-compose/docker-compose.internal.yaml)
+- [Metrics and logging](https://github.com/BerendWouters/AutomationOverkill/blob/main/docker-compose/docker-compose.metrics.yaml)
+- [Portainer](https://github.com/BerendWouters/AutomationOverkill/blob/main/docker-compose/docker-compose.proxy.yaml)
 
-## Collection
-- Automate SD card copy to other location
-
-
-## Additionals
-- Raspbian by default doesn't support exfat. You might want to follow [this tutorial](https://pimylifeup.com/raspberry-pi-exfat)
-     - In short:
-     `sudo apt install exfat-fuse exfat-utils`
+## Misc
+- [copy.ps1](https://github.com/BerendWouters/AutomationOverkill/blob/main/CopySD/copy.ps1) is a simple powershell script that watches a folder and moves files to another directory. No longer in use
+- [configuration](https://github.com/BerendWouters/AutomationOverkill/blob/main/configuration) contains a couple of configuration scripts for loki and promtail, but no longer up-to-date
