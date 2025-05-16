@@ -332,7 +332,7 @@ services:
       - ${JELLYSEERR_CONFIG}:/app/config
     restart: unless-stopped
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:2.21.0
+    image: ghcr.io/advplyr/audiobookshelf:2.23.0
     volumes:
       - ${ABS_AUDIOBOOKS}:/audiobooks
       - ${ABS_PODCASTS}:/podcasts
