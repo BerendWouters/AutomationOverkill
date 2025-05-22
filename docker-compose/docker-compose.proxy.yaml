@@ -230,6 +230,8 @@ services:
       --metrics.prometheus.addServicesLabels=true 
       --metrics.prometheus.addEntryPointsLabels=true
       --core.defaultRuleSyntax=v2
+      --ping=true
+
     logging:
       driver: loki:latest
       options:
