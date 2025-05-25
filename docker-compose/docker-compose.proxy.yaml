@@ -420,7 +420,7 @@ services:
     depends_on:
       wanderer-search:
         condition: service_healthy
-      db:
+      wanderer-db:
         condition: service_started
     environment:
       ORIGIN: http://localhost:3000
