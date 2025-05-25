@@ -471,6 +471,7 @@ services:
   #     - build_time_zones=True
 networks:
   public_default:
+    name: public_default
     external: true
   wanderer:
     driver: bridge
