@@ -427,7 +427,7 @@ services:
     environment:
       MEILI_URL: http://wanderer-search:7700
       MEILI_MASTER_KEY: ${WANDERER_MEILI_MASTER_KEY}
-      ORIGIN: http://localhost:3333
+      ORIGIN: wanderer.${DNS_HOSTNAME}
       BODY_SIZE_LIMIT: Infinity
       PUBLIC_POCKETBASE_URL: http://wanderer-db:8090
       PUBLIC_DISABLE_SIGNUP: false
