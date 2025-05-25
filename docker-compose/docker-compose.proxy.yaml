@@ -385,7 +385,7 @@ services:
     container_name: wanderer-search
     image: getmeili/meilisearch:v1.11.3
     environment:
-      MEILI_URL: http://search:7700
+      MEILI_URL: http://wanderer-search:7700
       MEILI_MASTER_KEY: ${WANDERER_MEILI_MASTER_KEY}
       MEILI_NO_ANALYTICS: true
     ports:
@@ -408,7 +408,7 @@ services:
       wanderer-search:
         condition: service_healthy
     environment:
-      MEILI_URL: http://search:7700
+      MEILI_URL: http://wanderer-search:7700
       MEILI_MASTER_KEY: ${WANDERER_MEILI_MASTER_KEY}
       POCKETBASE_ENCRYPTION_KEY: ${WANDERER_POCKETBASE_ENCRYPTION_KEY}
     networks:
@@ -425,7 +425,7 @@ services:
       wanderer-db:
         condition: service_started
     environment:
-      MEILI_URL: http://search:7700
+      MEILI_URL: http://wanderer-search:7700
       MEILI_MASTER_KEY: ${WANDERER_MEILI_MASTER_KEY}
       ORIGIN: http://localhost:3333
       BODY_SIZE_LIMIT: Infinity
