@@ -442,10 +442,10 @@ services:
       - "3333:3000"
     networks:
       - wanderer
+      - public_default
     restart: unless-stopped
     labels:
       traefik.enable: "true"
-      traefik.http.services.wanderer.loadbalancer.server.port: 80
       traefik.http.middlewares.wanderer_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.wanderer_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.wanderer_http.entrypoints: web
@@ -469,5 +469,8 @@ services:
   #     - build_admins=True
   #     - build_time_zones=True
 networks:
+  public_default:
+    name: public_default
+    external: true
   wanderer:
     driver: bridge
