@@ -407,8 +407,6 @@ services:
         condition: service_healthy
     environment:
       POCKETBASE_ENCRYPTION_KEY:
-    ports:
-      - "8090:8090"
     networks:
       - wanderer
     restart: unless-stopped
@@ -435,7 +433,7 @@ services:
     volumes:
       - ${WANDERER_UPLOADS}:/app/uploads
     ports:
-      - "3000:3000"
+      - "3333:3000"
     networks:
       - wanderer
     restart: unless-stopped
