@@ -65,6 +65,10 @@ jobs:
           ABS_AUDIOBOOKS: "/home/abs/audiobooks"
           BABYBUDDY_CONFIG: "/home/babybuddy/config"
           JELLYFIN_FOLDER_TMP: "/tmp/jellyfin"
+          WANDERER_MEILI_DATA: "/home/wanderer/meili/data"
+          WANDERER_DB_DATA: "/home/wanderer/db/data"
+          WANDERER_UPLOADS: "/home/wanderer/uploads"
+
           
 
 
