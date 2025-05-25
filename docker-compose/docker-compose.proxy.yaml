@@ -30,7 +30,7 @@ services:
       reverse-proxy:
         condition: service_started
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:1.35.1
+    image: lscr.io/linuxserver/prowlarr:1.36.3
     container_name: prowlarr
     environment:
       - PUID=1000
