@@ -122,7 +122,7 @@ services:
       - UN_SONARR_0_DELETE_ORIG=false
       - UN_SONARR_0_DELETE_DELAY=5m
   music_assistant:
-    image: ghcr.io/music-assistant/server:2.5.2
+    image: ghcr.io/music-assistant/server:2.5.4
     privileged: true
     networks:
       host:
