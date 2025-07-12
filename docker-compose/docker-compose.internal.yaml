@@ -46,7 +46,7 @@ services:
         loki-url: "http://localhost:3100/loki/api/v1/push"
         
   mosquitto:
-    image: eclipse-mosquitto:2.0.21
+    image: eclipse-mosquitto:2.0.22
     ports:
     - 8883:1883
     - 1883:1883
