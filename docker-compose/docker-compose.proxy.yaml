@@ -147,7 +147,7 @@ services:
         condition: service_started
 
   homeassistant:
-    image: homeassistant/home-assistant:2025.7
+    image: homeassistant/home-assistant:2025.8
     environment:
     - PUID=1000
     - PGID=1000
