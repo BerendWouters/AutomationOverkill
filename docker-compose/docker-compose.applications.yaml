@@ -401,7 +401,7 @@ services:
       timeout: 10s
   wanderer-db:
     container_name: wanderer-db
-    image: flomp/wanderer-db:0.17.2
+    image: flomp/wanderer-db:v0.17.2
     depends_on:
       wanderer-search:
         condition: service_healthy
@@ -414,7 +414,7 @@ services:
       - ${WANDERER_DB_DATA}:/pb_data
   wanderer-web:
     container_name: wanderer-web
-    image: flomp/wanderer-web:0.17.2
+    image: flomp/wanderer-web:v0.17.2
     depends_on:
       wanderer-search:
         condition: service_healthy
@@ -447,4 +447,5 @@ services:
       traefik.http.routers.wanderer_https.entrypoints: websecure
       traefik.http.routers.wanderer_https.rule: Host(`wanderer.${DNS_HOSTNAME}`)
       traefik.http.routers.wanderer_https.tls.certresolver: myresolver
+
 
