@@ -427,7 +427,7 @@ services:
       ORIGIN: https://wanderer.${DNS_HOSTNAME}
       BODY_SIZE_LIMIT: Infinity
       PUBLIC_POCKETBASE_URL: http://wanderer-db:8090
-      PUBLIC_DISABLE_SIGNUP: false
+      PUBLIC_DISABLE_SIGNUP: true
       UPLOAD_FOLDER: /app/uploads
       UPLOAD_USER:
       UPLOAD_PASSWORD:
@@ -448,6 +448,7 @@ services:
       traefik.http.routers.wanderer_https.entrypoints: websecure
       traefik.http.routers.wanderer_https.rule: Host(`wanderer.${DNS_HOSTNAME}`)
       traefik.http.routers.wanderer_https.tls.certresolver: myresolver
+
 
 
 
