@@ -409,6 +409,7 @@ services:
       MEILI_URL: http://wanderer-search:7700
       MEILI_MASTER_KEY: ${WANDERER_MEILI_MASTER_KEY}
       POCKETBASE_ENCRYPTION_KEY: ${WANDERER_POCKETBASE_ENCRYPTION_KEY}
+      ORIGIN: https://wanderer.${DNS_HOSTNAME}
     restart: unless-stopped
     volumes:
       - ${WANDERER_DB_DATA}:/pb_data
@@ -447,5 +448,6 @@ services:
       traefik.http.routers.wanderer_https.entrypoints: websecure
       traefik.http.routers.wanderer_https.rule: Host(`wanderer.${DNS_HOSTNAME}`)
       traefik.http.routers.wanderer_https.tls.certresolver: myresolver
+
 
 
