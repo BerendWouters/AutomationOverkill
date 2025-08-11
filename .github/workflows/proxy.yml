@@ -27,7 +27,7 @@ jobs:
       - name: Docker Compose with Tests Action
         uses: adambirds/docker-compose-action@v1.5.0
         with:
-          compose-file: ".//docker-compose/docker-compose.proxy.yaml"
+          compose-file: ".//docker-compose/docker-compose.applications.yaml"
           up-flags: "--dry-run"
         env:
           SONARR_FOLDER_CONFIG: "/home/sonarr"
