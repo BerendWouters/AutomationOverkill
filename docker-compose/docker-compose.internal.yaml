@@ -27,7 +27,7 @@ services:
       options:
         loki-url: "http://localhost:3100/loki/api/v1/push"
   adguard:
-    image: adguard/adguardhome:v0.107.64
+    image: adguard/adguardhome:v0.107.65
     ports:
     - 3030:3000
     - 53:53/tcp
