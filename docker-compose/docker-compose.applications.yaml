@@ -190,7 +190,7 @@ services:
       PGID: '1000'
       PUID: '1000'
       TZ: Europe/Brussels
-    image: linuxserver/radarr:5.26.2
+    image: linuxserver/radarr:5.27.5
     labels:
       traefik.enable: "true"
       traefik.http.services.radarr.loadbalancer.server.port: 7878
