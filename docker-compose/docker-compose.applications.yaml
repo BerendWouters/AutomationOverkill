@@ -123,7 +123,7 @@ services:
     - PUID=1000
     - PGID=1000
     - TZ=Europe/Brussels
-    image: linuxserver/heimdall:2.7.4
+    image: linuxserver/heimdall:2.7.5
     labels:
       traefik.enable: "true"
       traefik.http.services.heimdall.loadbalancer.server.port: 80
