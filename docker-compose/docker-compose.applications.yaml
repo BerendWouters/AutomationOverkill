@@ -415,7 +415,7 @@ services:
       - ${WANDERER_DB_DATA}:/pb_data
   wanderer-web:
     container_name: wanderer-web
-    image: flomp/wanderer-web:v0.18.2
+    image: flomp/wanderer-web:v0.18.3
     depends_on:
       wanderer-search:
         condition: service_healthy
