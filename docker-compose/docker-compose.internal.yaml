@@ -62,7 +62,7 @@ services:
         loki-url: "http://localhost:3100/loki/api/v1/push"
         
   esphome:
-    image: esphome/esphome:2025.8.4
+    image: esphome/esphome:2025.9.1
     ports:
     - ${ESPHOME_PORT}:6052
     environment:
