@@ -332,6 +332,9 @@ services:
       - 5055:5055
     volumes:
       - ${JELLYSEERR_CONFIG}:/app/config
+    depends_on:
+      reverse-proxy:
+        condition: service_started
     labels:
       traefik.enable: "true"
       traefik.http.services.jellyseerr.loadbalancer.server.port: 5055
@@ -459,6 +462,7 @@ services:
       traefik.http.routers.wanderer_https.entrypoints: websecure
       traefik.http.routers.wanderer_https.rule: Host(`wanderer.${DNS_HOSTNAME}`)
       traefik.http.routers.wanderer_https.tls.certresolver: myresolver
+
 
 
 
