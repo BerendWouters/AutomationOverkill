@@ -332,6 +332,17 @@ services:
       - 5055:5055
     volumes:
       - ${JELLYSEERR_CONFIG}:/app/config
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.jellyseerr.loadbalancer.server.port: 80
+      traefik.http.middlewares.jellyseerr_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.jellyseerr_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.jellyseerr_http.entrypoints: web
+      traefik.http.routers.jellyseerr_http.middlewares: jellyseerr_https_redirect
+      traefik.http.routers.jellyseerr_http.rule: Host(`jellyseerr.${DNS_HOSTNAME}`)
+      traefik.http.routers.jellyseerr_https.entrypoints: websecure
+      traefik.http.routers.jellyseerr_https.rule: Host(`jellyseerr.${DNS_HOSTNAME}`)
+      traefik.http.routers.jellyseerr_https.tls.certresolver: myresolver
     restart: unless-stopped
   audiobookshelf:
     image: ghcr.io/advplyr/audiobookshelf:2.30.0
@@ -448,6 +459,7 @@ services:
       traefik.http.routers.wanderer_https.entrypoints: websecure
       traefik.http.routers.wanderer_https.rule: Host(`wanderer.${DNS_HOSTNAME}`)
       traefik.http.routers.wanderer_https.tls.certresolver: myresolver
+
 
 
 
