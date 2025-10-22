@@ -6,7 +6,7 @@
   "packageRules": [
     {
       "matchDatasources": ["docker"],
-      "matchPackageNames": ["linuxserver/transmission", "linuxserver/heimdall"],
+      "matchPackageNames": ["linuxserver/transmission", "linuxserver/heimdall", "jellyfin/jellyfin"],
       "versioning": "semver"
     }
   ]
