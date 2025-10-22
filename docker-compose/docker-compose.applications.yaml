@@ -249,7 +249,7 @@ services:
     - /var/run/docker.sock:/var/run/docker.sock:ro
 
   jellyfin:
-    image: jellyfin/jellyfin:2025092205
+    image: jellyfin/jellyfin:10.11.0
     container_name: jellyfin
     user: 1000:1000
     group_add:
@@ -462,6 +462,7 @@ services:
       traefik.http.routers.wanderer_https.entrypoints: websecure
       traefik.http.routers.wanderer_https.rule: Host(`wanderer.${DNS_HOSTNAME}`)
       traefik.http.routers.wanderer_https.tls.certresolver: myresolver
+
 
 
 
