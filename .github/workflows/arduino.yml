@@ -28,4 +28,4 @@ jobs:
       # Runs a single command using the runners shell
       - uses: arduino/compile-sketches@v1
         with:
-          sketch-paths: "Arduino"
+          sketch-paths: "- Arduino"
