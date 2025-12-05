@@ -1,8 +1,6 @@
-version: '3.0'
-
 services:
   node-exporter:
-    image: prom/node-exporter:latest
+    image: prom/node-exporter:v1.10.2
     container_name: node-exporter
     restart: unless-stopped
     volumes:
@@ -17,7 +15,7 @@ services:
     expose:
       - 9100
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor
+    image: gcr.io/cadvisor/cadvisor:v0.52.1
     environment:
     - PUID=1000
     - PGID=1000
@@ -38,7 +36,7 @@ services:
     restart: unless-stopped
 
   telegraf:
-    image: telegraf:latest
+    image: telegraf:1.36.4
     environment:
     - PUID=1000
     - PGID=1000
@@ -48,7 +46,7 @@ services:
     restart: unless-stopped
     
   influxdb:
-    image: influxdb:2.1
+    image: influxdb:2.7
     environment:
     - PUID=1000
     - PGID=1000
@@ -68,7 +66,7 @@ services:
     - ${INFLUXDB2_FOLDER_ETC}:/etc/influxdb2
   
   prometheus:
-    image: prom/prometheus:v2.31.1
+    image: prom/prometheus:v3.7.3
     environment:
     - TZ=Europe/Brussels
     ports:
@@ -81,7 +79,7 @@ services:
     - ${PROMETHEUS_FOLDER_CONFIG}:/etc/prometheus/prometheus.yml
  
   loki:
-    image: grafana/loki:2.3.0
+    image: grafana/loki:3.6.2
     environment:
     - PUID=1000
     - PGID=1000
@@ -94,7 +92,7 @@ services:
     restart: unless-stopped
 
   promtail:
-    image: grafana/promtail:2.4.0
+    image: grafana/promtail:3.6.2
     command: -config.file=/etc/promtail/config.yml
     restart: unless-stopped
     volumes:
@@ -102,7 +100,7 @@ services:
       - /var/log:/var/log
   
   uptime-kuma:
-    image: louislam/uptime-kuma:1
+    image: louislam/uptime-kuma:2
     container_name: uptime-kuma
     volumes:
       - ${UPTIME_KUMA_APPDATA}:/app/data
@@ -112,7 +110,7 @@ services:
     restart: always
 
   glances:
-    image: nicolargo/glances:latest
+    image: nicolargo/glances:4.4.1
     restart: always
     pid: host
     ports:

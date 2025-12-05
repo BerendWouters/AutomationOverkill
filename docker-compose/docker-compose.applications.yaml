@@ -1,8 +1,6 @@
-version: '3.0'
-
 services:
   sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
+    image: lscr.io/linuxserver/sonarr:4.0.16
     container_name: sonarr
     environment:
       - PUID=1000
@@ -32,7 +30,7 @@ services:
       reverse-proxy:
         condition: service_started
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
+    image: lscr.io/linuxserver/prowlarr:2.3.0
     container_name: prowlarr
     environment:
       - PUID=1000
@@ -44,7 +42,7 @@ services:
       - 9696:9696
     restart: unless-stopped
   bazarr:
-    image: ghcr.io/linuxserver/bazarr
+    image: ghcr.io/linuxserver/bazarr:1.5.3
     environment:
       - PUID=1000
       - PGID=1000
@@ -76,7 +74,7 @@ services:
         condition: service_started
 
   grafana:
-    image: grafana/grafana-oss:8.3.3
+    image: grafana/grafana-oss:12.1.1
     environment:
       - TZ=Europe/Brussels
     labels:
@@ -103,7 +101,7 @@ services:
         condition: service_started
   homarr:
     container_name: homarr
-    image: ghcr.io/ajnart/homarr:latest
+    image: ghcr.io/ajnart/homarr:0.16.0
     restart: unless-stopped
     labels:
       traefik.enable: "true"
@@ -125,7 +123,7 @@ services:
     - PUID=1000
     - PGID=1000
     - TZ=Europe/Brussels
-    image: linuxserver/heimdall
+    image: linuxserver/heimdall:2021.11.28
     labels:
       traefik.enable: "true"
       traefik.http.services.heimdall.loadbalancer.server.port: 80
@@ -149,7 +147,7 @@ services:
         condition: service_started
 
   homeassistant:
-    image: homeassistant/home-assistant:stable
+    image: homeassistant/home-assistant:2025.11
     environment:
     - PUID=1000
     - PGID=1000
@@ -192,7 +190,7 @@ services:
       PGID: '1000'
       PUID: '1000'
       TZ: Europe/Brussels
-    image: linuxserver/radarr:latest
+    image: linuxserver/radarr:6.0.4
     labels:
       traefik.enable: "true"
       traefik.http.services.radarr.loadbalancer.server.port: 7878
@@ -216,7 +214,7 @@ services:
     - ${RADARR_FOLDER_MOVIES}:/movies:rw
 
   reverse-proxy:
-    image: traefik:v2.9.1
+    image: traefik:v3.6.2
     command: 
       --log.level=DEBUG 
       --api.insecure=true 
@@ -230,7 +228,10 @@ services:
       --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json 
       --metrics.prometheus=true
       --metrics.prometheus.addServicesLabels=true 
-      --metrics.prometheus.addEntryPointsLabels=true    
+      --metrics.prometheus.addEntryPointsLabels=true
+      --core.defaultRuleSyntax=v2
+      --ping=true
+
     logging:
       driver: loki:latest
       options:
@@ -247,39 +248,8 @@ services:
     - ${TRAEFIK_FOLDER_LETSENCRYPT}:/letsencrypt:rw
     - /var/run/docker.sock:/var/run/docker.sock:ro
 
-  sickchill:
-    image: linuxserver/sickchill:latest
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Brussels
-    labels:
-      traefik.enable: "true"
-      traefik.http.services.sickchill.loadbalancer.server.port: 8081
-      traefik.http.middlewares.sickchill_https_redirect.redirectscheme.permanent: "true"
-      traefik.http.middlewares.sickchill_https_redirect.redirectscheme.scheme: https
-      traefik.http.routers.sickchill_http.entrypoints: web
-      traefik.http.routers.sickchill_http.middlewares: sickchill_https_redirect
-      traefik.http.routers.sickchill_http.rule: Host(`sickrage.${DNS_HOSTNAME}`) || Host(`sickchill.${DNS_HOSTNAME}`)
-      traefik.http.routers.sickchill_https.entrypoints: websecure
-      traefik.http.routers.sickchill_https.rule: Host(`sickrage.${DNS_HOSTNAME}`) || Host(`sickchill.${DNS_HOSTNAME}`)
-      traefik.http.routers.sickchill_https.tls.certresolver: myresolver
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
-    restart: unless-stopped
-    volumes:
-    - ${SICKCHILL_FOLDER_DOWNLOADS}:/downloads/tvshows:rw
-    - ${SICKCHILL_FOLDER_TVSHOWS}:/series:rw
-    - ${SICKCHILL_FOLDER_CONFIG}:/config:rw
-    - ${SICKCHILL_FOLDER_DATA}:/data:rw
-    depends_on:
-      reverse-proxy:
-        condition: service_started
-
   jellyfin:
-    image: jellyfin/jellyfin
+    image: jellyfin/jellyfin:10.11.4
     container_name: jellyfin
     user: 1000:1000
     group_add:
@@ -289,10 +259,11 @@ services:
       - ${JELLYFIN_FOLDER_CACHE}:/cache
       - ${RADARR_FOLDER_MOVIES}:/movies:ro
       - ${SICKCHILL_FOLDER_TVSHOWS}:/tvshows:ro
+      - ${JELLYFIN_FOLDER_TMP}:/tmp/jellyfin
     devices:
     # Hardware encoding
       - /dev/dri/renderD128:/dev/dri/renderD128
-      - /dev/dri/card0:/dev/dri/card0
+      - /dev/dri/card1:/dev/dri/card0
     restart: "unless-stopped"
     # Optional - alternative address used for autodiscovery
     environment:
@@ -312,29 +283,29 @@ services:
       reverse-proxy:
         condition: service_started
         
-  youtransfer:
-    image: remie/youtransfer:stable
-    container_name: youtransfer
-    volumes:
-      - ${YOUTRANSFER_UPLOADS}:/opt/youtransfer/uploads
-      - ${YOUTRANSFER_CONFIG}:/opt/youtransfer/config
-    restart: "unless-stopped"    
-    labels:
-      traefik.enable: "true"
-      traefik.http.services.youtransfer.loadbalancer.server.port: 5000
-      traefik.http.middlewares.youtransfer_https_redirect.redirectscheme.permanent: "true"
-      traefik.http.middlewares.youtransfer_https_redirect.redirectscheme.scheme: https
-      traefik.http.routers.youtransfer_http.entrypoints: web
-      traefik.http.routers.youtransfer_http.middlewares: youtransfer_https_redirect
-      traefik.http.routers.youtransfer_http.rule: Host(`youtransfer.${DNS_HOSTNAME}`)
-      traefik.http.routers.youtransfer_https.entrypoints: websecure
-      traefik.http.routers.youtransfer_https.rule: Host(`youtransfer.${DNS_HOSTNAME}`)
-      traefik.http.routers.youtransfer_https.tls.certresolver: myresolver
-    depends_on:
-      reverse-proxy:
-        condition: service_started        
+  #youtransfer:
+  #  image: remie/youtransfer:stable
+  #  container_name: youtransfer
+  #  volumes:
+  #    - ${YOUTRANSFER_UPLOADS}:/opt/youtransfer/uploads
+  #    - ${YOUTRANSFER_CONFIG}:/opt/youtransfer/config
+  #  restart: "unless-stopped"    
+  #  labels:
+  #    traefik.enable: "true"
+  #    traefik.http.services.youtransfer.loadbalancer.server.port: 5000
+  #    traefik.http.middlewares.youtransfer_https_redirect.redirectscheme.permanent: "true"
+  #    traefik.http.middlewares.youtransfer_https_redirect.redirectscheme.scheme: https
+  #    traefik.http.routers.youtransfer_http.entrypoints: web
+  #    traefik.http.routers.youtransfer_http.middlewares: youtransfer_https_redirect
+  #    traefik.http.routers.youtransfer_http.rule: Host(`youtransfer.${DNS_HOSTNAME}`)
+  #    traefik.http.routers.youtransfer_https.entrypoints: websecure
+  #    traefik.http.routers.youtransfer_https.rule: Host(`youtransfer.${DNS_HOSTNAME}`)
+  #    traefik.http.routers.youtransfer_https.tls.certresolver: myresolver
+  #  depends_on:
+  #    reverse-proxy:
+  #      condition: service_started        
   it-tools:
-    image: corentinth/it-tools:latest
+    image: corentinth/it-tools:2024.5.13-a0bc346
     container_name: it-tools
     restart: "unless-stopped"
     labels:
@@ -352,7 +323,7 @@ services:
       reverse-proxy:
         condition: service_started    
   jellyseerr:
-    image: fallenbagel/jellyseerr:develop
+    image: fallenbagel/jellyseerr:2.7.3
     container_name: jellyseerr
     environment:
       - LOG_LEVEL=debug
@@ -361,4 +332,144 @@ services:
       - 5055:5055
     volumes:
       - ${JELLYSEERR_CONFIG}:/app/config
+    depends_on:
+      reverse-proxy:
+        condition: service_started
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.jellyseerr.loadbalancer.server.port: 5055
+      traefik.http.middlewares.jellyseerr_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.jellyseerr_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.jellyseerr_http.entrypoints: web
+      traefik.http.routers.jellyseerr_http.middlewares: jellyseerr_https_redirect
+      traefik.http.routers.jellyseerr_http.rule: Host(`jellyseerr.${DNS_HOSTNAME}`)
+      traefik.http.routers.jellyseerr_https.entrypoints: websecure
+      traefik.http.routers.jellyseerr_https.rule: Host(`jellyseerr.${DNS_HOSTNAME}`)
+      traefik.http.routers.jellyseerr_https.tls.certresolver: myresolver
     restart: unless-stopped
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:2.30.0
+    volumes:
+      - ${ABS_AUDIOBOOKS}:/audiobooks
+      - ${ABS_PODCASTS}:/podcasts
+      - ${ABS_CONFIG}:/config
+      - ${ABS_METADATA}:/metadata
+    restart: "unless-stopped"
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.audiobookshelf.loadbalancer.server.port: 80
+      traefik.http.middlewares.audiobookshelf_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.audiobookshelf_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.audiobookshelf_http.entrypoints: web
+      traefik.http.routers.audiobookshelf_http.middlewares: audiobookshelf_https_redirect
+      traefik.http.routers.audiobookshelf_http.rule: Host(`audiobookshelf.${DNS_HOSTNAME}`) || Host(`abs.${DNS_HOSTNAME}`)
+      traefik.http.routers.audiobookshelf_https.entrypoints: websecure
+      traefik.http.routers.audiobookshelf_https.rule: Host(`audiobookshelf.${DNS_HOSTNAME}`) || Host(`abs.${DNS_HOSTNAME}`)
+      traefik.http.routers.audiobookshelf_https.tls.certresolver: myresolver
+    depends_on:
+      reverse-proxy:
+        condition: service_started    
+    environment:
+      - TZ=Europe/Brussels
+
+  babybuddy:
+    image: lscr.io/linuxserver/babybuddy:2.7.1
+    container_name: babybuddy
+    environment:
+      - TZ=Europe/Brussels
+      - CSRF_TRUSTED_ORIGINS=http://10.0.0.100:9800,https://babybuddy.${DNS_HOSTNAME}
+    volumes:
+      - ${BABYBUDDY_CONFIG}:/config
+    ports:
+      - 9800:8000
+    restart: unless-stopped
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.babybuddy.loadbalancer.server.port: 80
+      traefik.http.middlewares.babybuddy_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.babybuddy_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.babybuddy_http.entrypoints: web
+      traefik.http.routers.babybuddy_http.middlewares: babybuddy_https_redirect
+      traefik.http.routers.babybuddy_http.rule: Host(`babybuddy.${DNS_HOSTNAME}`)
+      traefik.http.routers.babybuddy_https.entrypoints: websecure
+      traefik.http.routers.babybuddy_https.rule: Host(`babybuddy.${DNS_HOSTNAME}`)
+      traefik.http.routers.babybuddy_https.tls.certresolver: myresolver
+
+  wanderer-search:
+    container_name: wanderer-search
+    image: getmeili/meilisearch:v1.11.3
+    environment:
+      MEILI_URL: http://wanderer-search:7700
+      MEILI_MASTER_KEY: ${WANDERER_MEILI_MASTER_KEY}
+      MEILI_NO_ANALYTICS: true
+    ports:
+      - 7700:7700
+    volumes:
+      - ${WANDERER_MEILI_DATA}:/meili_data/data.ms
+    restart: unless-stopped
+    healthcheck:
+      test: curl --fail http://localhost:7700/health || exit 1
+      interval: 15s
+      retries: 10
+      start_period: 20s
+      timeout: 10s
+  wanderer-db:
+    container_name: wanderer-db
+    image: flomp/wanderer-db:v0.18.3
+    depends_on:
+      wanderer-search:
+        condition: service_healthy
+    environment:
+      TZ: Europe/Brussels
+      MEILI_URL: http://wanderer-search:7700
+      MEILI_MASTER_KEY: ${WANDERER_MEILI_MASTER_KEY}
+      POCKETBASE_ENCRYPTION_KEY: ${WANDERER_POCKETBASE_ENCRYPTION_KEY}
+      POCKETBASE_CRON_SYNC_SCHEDULE: 20 14 * * *
+      ORIGIN: https://wanderer.${DNS_HOSTNAME}
+    restart: unless-stopped
+    volumes:
+      - ${WANDERER_DB_DATA}:/pb_data
+  wanderer-web:
+    container_name: wanderer-web
+    image: flomp/wanderer-web:v0.18.3
+    depends_on:
+      wanderer-search:
+        condition: service_healthy
+      wanderer-db:
+        condition: service_started
+    environment:
+      MEILI_URL: http://wanderer-search:7700
+      MEILI_MASTER_KEY: ${WANDERER_MEILI_MASTER_KEY}
+      ORIGIN: https://wanderer.${DNS_HOSTNAME}
+      BODY_SIZE_LIMIT: Infinity
+      PUBLIC_POCKETBASE_URL: http://wanderer-db:8090
+      PUBLIC_DISABLE_SIGNUP: true
+      UPLOAD_FOLDER: /app/uploads
+      UPLOAD_USER:
+      UPLOAD_PASSWORD:
+      PUBLIC_VALHALLA_URL: https://valhalla1.openstreetmap.de
+      PUBLIC_NOMINATIM_URL: https://nominatim.openstreetmap.org
+    volumes:
+      - ${WANDERER_UPLOADS}:/app/uploads
+    ports:
+      - "3333:3000"
+    restart: unless-stopped
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.wanderer_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.wanderer_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.wanderer_http.entrypoints: web
+      traefik.http.routers.wanderer_http.middlewares: wanderer_https_redirect
+      traefik.http.routers.wanderer_http.rule: Host(`wanderer.${DNS_HOSTNAME}`)
+      traefik.http.routers.wanderer_https.entrypoints: websecure
+      traefik.http.routers.wanderer_https.rule: Host(`wanderer.${DNS_HOSTNAME}`)
+      traefik.http.routers.wanderer_https.tls.certresolver: myresolver
+
+
+
+
+
+
+
+
+
