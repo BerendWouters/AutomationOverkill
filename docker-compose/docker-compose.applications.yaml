@@ -348,7 +348,7 @@ services:
       traefik.http.routers.jellyseerr_https.tls.certresolver: myresolver
     restart: unless-stopped
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:2.30.0
+    image: ghcr.io/advplyr/audiobookshelf:2.31.0
     volumes:
       - ${ABS_AUDIOBOOKS}:/audiobooks
       - ${ABS_PODCASTS}:/podcasts
