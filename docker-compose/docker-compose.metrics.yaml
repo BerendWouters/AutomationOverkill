@@ -15,7 +15,7 @@ services:
     expose:
       - 9100
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.52.1
+    image: gcr.io/cadvisor/cadvisor:v0.55.1
     environment:
     - PUID=1000
     - PGID=1000
