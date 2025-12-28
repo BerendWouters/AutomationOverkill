@@ -474,6 +474,7 @@ services:
     volumes:
       # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
       - ${IMMICH_UPLOAD_LOCATION}:/data
+      - ${IMMICH_EXTERNAL_LOCATION}:/external_location
       - /etc/localtime:/etc/localtime:ro
     environment:
        TZ: Europe/Brussels
@@ -514,6 +515,7 @@ services:
       - ${IMMICH_DB_DATA_LOCATION}:/var/lib/postgresql/data
     shm_size: 128mb
     restart: always
+
 
 
 
