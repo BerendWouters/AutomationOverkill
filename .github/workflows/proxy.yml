@@ -68,6 +68,9 @@ jobs:
           WANDERER_MEILI_DATA: "/home/wanderer/meili/data"
           WANDERER_DB_DATA: "/home/wanderer/db/data"
           WANDERER_UPLOADS: "/home/wanderer/uploads"
+          IMMICH_UPLOAD_LOCATION: "/home/immich/uploads"
+          IMMICH_DB_DATA_LOCATION: "/home/immich/db"
+
 
           
 
