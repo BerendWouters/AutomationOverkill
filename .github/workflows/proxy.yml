@@ -1,0 +1,82 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Validate docker-compose
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v6
+      - name: Docker Compose with Tests Action
+        uses: adambirds/docker-compose-action@v1.5.0
+        with:
+          compose-file: ".//docker-compose/docker-compose.applications.yaml"
+          up-flags: "--dry-run"
+        env:
+          SONARR_FOLDER_CONFIG: "/home/sonarr"
+          SONARR_FOLDER_TVSHOWS: "/media/tvshows"
+          SONARR_FOLDER_DOWNLOADS: "/media/downloads"
+          DNS_HOSTNAME: "domain.tld"
+          PROWLARR_FOLDER_CONFIG: "/home/prowlarr"
+          BAZARR_FOLDER_CONFIG: "/home/bazarr"
+          BAZARR_FOLDER_MOVIES: "/media/movies"
+          BAZARR_FOLDER_TVSHOWS: "/media/tvshows"
+          BAZARR_FOLDER_MOVIES_DOWNLOADS: "/media/downloads/movies"
+          BAZARR_FOLDER_TVSHOWS_DOWNLOADS: "/media/downloads/tvshows"
+          GRAFANA_FOLDER_DATA: "/home/grafana"
+          HOMARR_FOLDER_CONFIG: "/home/homarr"
+          HEIMDALL_FOLDER_CONFIG: "/home/heimdall"
+          HOMEASSISTANT_PORT: "8080"
+          HOMEASSISTANT_FOLDER_CONFIG: "/home/homeassistant"
+          RADARR_FOLDER_COMPLETED: "/media/completed"
+          RADARR_FOLDER_CONFIG: "/home/radarr"
+          RADARR_FOLDER_DOWNLOADS: "/media/downloads"
+          RADARR_FOLDER_MOVIES: "/media/movies"
+          TRAEFIK_FOLDER_LETSENCRYPT: "/home/traefik/letsencrypt"
+          SICKCHILL_FOLDER_DOWNLOADS: "/media/downloads"
+          SICKCHILL_FOLDER_TVSHOWS: "/media/tvshows"
+          SICKCHILL_FOLDER_CONFIG: "/home/sickchill/config"
+          SICKCHILL_FOLDER_DATA: "/home/sickchill/data"
+          JELLYFIN_FOLDER_CONFIG: "/home/jellyfin/config"
+          JELLYFIN_FOLDER_CACHE: "/home/jellyfin/cache"
+          YOUTRANSFER_UPLOADS: "/home/youtransfer/uploads"
+          YOUTRANSFER_CONFIG: "/home/youtransfer/config"
+          JELLYSEERR_CONFIG: "/home/jellyseer"
+          ABS_METADATA: "/home/abs/metadata"
+          ABS_CONFIG: "/home/abs/config"
+          ABS_PODCASTS: "/home/abs/podcasts"
+          ABS_AUDIOBOOKS: "/home/abs/audiobooks"
+          BABYBUDDY_CONFIG: "/home/babybuddy/config"
+          JELLYFIN_FOLDER_TMP: "/tmp/jellyfin"
+          WANDERER_MEILI_DATA: "/home/wanderer/meili/data"
+          WANDERER_DB_DATA: "/home/wanderer/db/data"
+          WANDERER_UPLOADS: "/home/wanderer/uploads"
+          IMMICH_UPLOAD_LOCATION: "/home/immich/uploads"
+          IMMICH_EXTERNAL_LOCATION: "/mnt/external"
+          IMMICH_DB_DATA_LOCATION: "/home/immich/db"
+
+
+          
+
+
+          
+    
+          
+    
