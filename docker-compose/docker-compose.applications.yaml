@@ -484,7 +484,17 @@ services:
        DB_DATABASE_NAME: ${IMMICH_DB_DATABASE_NAME}
        DB_PASSWORD: ${IMMICH_DB_PASSWORD}
        REDIS_HOSTNAME: immich-redis
-       
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.immich.loadbalancer.server.port: 2283
+      traefik.http.middlewares.immich_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.immich_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.immich_http.entrypoints: web
+      traefik.http.routers.immich_http.middlewares: immich_https_redirect
+      traefik.http.routers.immich_http.rule: Host(`immich.${DNS_HOSTNAME}`)
+      traefik.http.routers.immich_https.entrypoints: websecure
+      traefik.http.routers.immich_https.rule: Host(`immich.${DNS_HOSTNAME}`)
+      traefik.http.routers.immich_https.tls.certresolver: myresolver
     ports:
       - '2283:2283'
     depends_on:
