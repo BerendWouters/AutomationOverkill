@@ -15,7 +15,7 @@ services:
     expose:
       - 9100
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.52.1
+    image: gcr.io/cadvisor/cadvisor:v0.55.1
     environment:
     - PUID=1000
     - PGID=1000
@@ -36,7 +36,7 @@ services:
     restart: unless-stopped
 
   telegraf:
-    image: telegraf:1.36.4
+    image: telegraf:1.37.0
     environment:
     - PUID=1000
     - PGID=1000
@@ -46,7 +46,7 @@ services:
     restart: unless-stopped
     
   influxdb:
-    image: influxdb:2.7
+    image: influxdb:2.8
     environment:
     - PUID=1000
     - PGID=1000
@@ -66,7 +66,7 @@ services:
     - ${INFLUXDB2_FOLDER_ETC}:/etc/influxdb2
   
   prometheus:
-    image: prom/prometheus:v3.7.3
+    image: prom/prometheus:v3.8.1
     environment:
     - TZ=Europe/Brussels
     ports:
@@ -79,7 +79,7 @@ services:
     - ${PROMETHEUS_FOLDER_CONFIG}:/etc/prometheus/prometheus.yml
  
   loki:
-    image: grafana/loki:3.6.2
+    image: grafana/loki:3.6.3
     environment:
     - PUID=1000
     - PGID=1000
@@ -92,7 +92,7 @@ services:
     restart: unless-stopped
 
   promtail:
-    image: grafana/promtail:3.6.2
+    image: grafana/promtail:3.6.3
     command: -config.file=/etc/promtail/config.yml
     restart: unless-stopped
     volumes:
