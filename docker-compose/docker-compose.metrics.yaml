@@ -110,7 +110,7 @@ services:
     restart: always
 
   glances:
-    image: nicolargo/glances:4.4.1
+    image: nicolargo/glances:4.5.0
     restart: always
     pid: host
     ports:
