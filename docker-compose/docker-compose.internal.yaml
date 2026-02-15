@@ -190,7 +190,7 @@ services:
         loki-url: "http://localhost:3100/loki/api/v1/push"
 
   matter-server:
-    image: ghcr.io/matter-js/python-matter-server:stable
+    image: ghcr.io/matter-js/python-matter-server:8.1.2
     container_name: matter-server
     restart: unless-stopped
     # Required for mDNS to work correctly
@@ -207,3 +207,4 @@ services:
     #command: --storage-path /data --paa-root-cert-dir /data/credentials --bluetooth-adapter 0
 networks:
   host: {}
+
