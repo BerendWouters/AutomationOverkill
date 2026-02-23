@@ -397,7 +397,7 @@ services:
 
   wanderer-search:
     container_name: wanderer-search
-    image: getmeili/meilisearch:v1.11.3
+    image: getmeili/meilisearch:v1.36.0
     environment:
       MEILI_URL: http://wanderer-search:7700
       MEILI_MASTER_KEY: ${WANDERER_MEILI_MASTER_KEY}
