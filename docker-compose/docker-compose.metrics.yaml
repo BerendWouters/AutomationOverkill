@@ -36,7 +36,7 @@ services:
     restart: unless-stopped
 
   telegraf:
-    image: telegraf:1.37.2
+    image: telegraf:1.37.3
     environment:
     - PUID=1000
     - PGID=1000
