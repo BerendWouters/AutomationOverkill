@@ -3,7 +3,7 @@ version: '3.0'
 services:
 
   transmission:
-    image: linuxserver/transmission:4.1.0
+    image: linuxserver/transmission:4.1.1
     environment:    
     - TZ=Europe/Brussels
     - PGID=1000
