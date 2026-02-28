@@ -79,7 +79,7 @@ services:
     - ${PROMETHEUS_FOLDER_CONFIG}:/etc/prometheus/prometheus.yml
  
   loki:
-    image: grafana/loki:3.6.6
+    image: grafana/loki:3.6.7
     environment:
     - PUID=1000
     - PGID=1000
