@@ -328,6 +328,7 @@ services:
   jellyseerr:
     image: ghcr.io/seerr-team/seerr:v3.0.0
     container_name: jellyseerr
+    init: true
     environment:
       - LOG_LEVEL=debug
       - TZ=Europe/Brussels
@@ -528,6 +529,7 @@ services:
       - ${IMMICH_DB_DATA_LOCATION}:/var/lib/postgresql/data
     shm_size: 128mb
     restart: always
+
 
 
 
