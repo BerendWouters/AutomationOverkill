@@ -101,8 +101,12 @@ services:
         condition: service_started
   homarr:
     container_name: homarr
-    image: ghcr.io/ajnart/homarr:0.16.1
+    image: ghcr.io/homarr-labs/homarr:v1.56.0
     restart: unless-stopped
+    environment:
+      - SECRET_ENCRYPTION_KEY=f8f33adc5abb49526a50aa87766b0ad25d2635174ce26052465dbbbe1a5aec9b
+    ports:
+      - 7575:7575
     labels:
       traefik.enable: "true"
       traefik.http.services.homarr.loadbalancer.server.port: 7575
@@ -115,8 +119,7 @@ services:
       traefik.http.routers.homarr_https.rule: Host(`homarr.${DNS_HOSTNAME}`)
       traefik.http.routers.homarr_https.tls.certresolver: myresolver
     volumes:
-      - ${HOMARR_FOLDER_CONFIG}/configs:/app/data/configs
-      - ${HOMARR_FOLDER_CONFIG}/icons:/app/public/icons
+      - ${HOMARR_FOLDER_CONFIG}/appdata:/appdata
       - /var/run/docker.sock:/var/run/docker.sock
   heimdall:
     environment:
