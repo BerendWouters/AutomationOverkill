@@ -326,7 +326,7 @@ services:
       reverse-proxy:
         condition: service_started    
   jellyseerr:
-    image: fallenbagel/jellyseerr:2.7.3
+    image: ghcr.io/seerr-team/seerr:v3.0.0
     container_name: jellyseerr
     environment:
       - LOG_LEVEL=debug
@@ -528,6 +528,8 @@ services:
       - ${IMMICH_DB_DATA_LOCATION}:/var/lib/postgresql/data
     shm_size: 128mb
     restart: always
+
+
 
 
 
