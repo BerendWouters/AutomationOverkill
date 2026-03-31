@@ -217,7 +217,7 @@ services:
     - ${RADARR_FOLDER_MOVIES}:/movies:rw
 
   reverse-proxy:
-    image: traefik:v3.6.10
+    image: traefik:v3.6.12
     command: 
       --log.level=DEBUG 
       --api.insecure=true 
