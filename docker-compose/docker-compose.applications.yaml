@@ -252,7 +252,7 @@ services:
     - /var/run/docker.sock:/var/run/docker.sock:ro
 
   jellyfin:
-    image: jellyfin/jellyfin:10.11.6
+    image: jellyfin/jellyfin:10.11.7
     container_name: jellyfin
     user: 1000:1000
     group_add:
