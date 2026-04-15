@@ -326,7 +326,7 @@ services:
       reverse-proxy:
         condition: service_started    
   jellyseerr:
-    image: ghcr.io/seerr-team/seerr:v3.1.0
+    image: ghcr.io/seerr-team/seerr:v3.1.1
     container_name: jellyseerr
     init: true
     environment:
