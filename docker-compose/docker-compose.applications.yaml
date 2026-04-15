@@ -101,7 +101,7 @@ services:
         condition: service_started
   homarr:
     container_name: homarr
-    image: ghcr.io/homarr-labs/homarr:v1.58.1
+    image: ghcr.io/homarr-labs/homarr:v1.59.1
     restart: unless-stopped
     environment:
       - SECRET_ENCRYPTION_KEY=f8f33adc5abb49526a50aa87766b0ad25d2635174ce26052465dbbbe1a5aec9b
