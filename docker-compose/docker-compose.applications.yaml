@@ -74,7 +74,7 @@ services:
         condition: service_started
 
   grafana:
-    image: grafana/grafana-oss:13.0.0
+    image: grafana/grafana-oss:13.0.1
     environment:
       - TZ=Europe/Brussels
     labels:
@@ -326,7 +326,7 @@ services:
       reverse-proxy:
         condition: service_started    
   jellyseerr:
-    image: ghcr.io/seerr-team/seerr:v3.1.1
+    image: ghcr.io/seerr-team/seerr:v3.2.0
     container_name: jellyseerr
     init: true
     environment:
@@ -352,7 +352,7 @@ services:
       traefik.http.routers.jellyseerr_https.tls.certresolver: myresolver
     restart: unless-stopped
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:2.33.1
+    image: ghcr.io/advplyr/audiobookshelf:2.33.2
     volumes:
       - ${ABS_AUDIOBOOKS}:/audiobooks
       - ${ABS_PODCASTS}:/podcasts
