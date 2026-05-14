@@ -419,7 +419,7 @@ services:
       timeout: 10s
   wanderer-db:
     container_name: wanderer-db
-    image: flomp/wanderer-db:v0.18.5
+    image: flomp/wanderer-db:v0.19.1
     depends_on:
       wanderer-search:
         condition: service_healthy
