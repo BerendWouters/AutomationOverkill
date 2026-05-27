@@ -377,7 +377,7 @@ services:
       - TZ=Europe/Brussels
 
   babybuddy:
-    image: lscr.io/linuxserver/babybuddy:2.9.0
+    image: lscr.io/linuxserver/babybuddy:2.9.2
     container_name: babybuddy
     environment:
       - TZ=Europe/Brussels
