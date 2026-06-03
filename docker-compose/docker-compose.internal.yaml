@@ -102,7 +102,7 @@ services:
       - UN_SONARR_0_DELETE_ORIG=false
       - UN_SONARR_0_DELETE_DELAY=5m
   music_assistant:
-    image: ghcr.io/music-assistant/server:2.8.8
+    image: ghcr.io/music-assistant/server:2.8.9
     volumes:
       - ${MUSICASSISTANT_SERVER}:/data
 
