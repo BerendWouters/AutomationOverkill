@@ -90,7 +90,16 @@ services:
     volumes:
     - ${LOKI_FOLDER_ETC}/local-config.yaml:/etc/loki/local-config.yaml
     restart: unless-stopped
-
+  
+  alloy:
+    image: grafana/alloy:v1.16.2
+    volumes:
+      - ${ALLOY_FOLDER_ETC}/alloy-local-config.yaml:/etc/alloy/config.alloy:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    command:  run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data /etc/alloy/config.alloy
+    ports:
+      - 12345:12345
+  
   promtail:
     image: grafana/promtail:3.6.11
     command: -config.file=/etc/promtail/config.yml
