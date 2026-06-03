@@ -78,7 +78,7 @@ services:
     - ${PROMETHEUS_FOLDER_DATA}:/prometheus
     - ${PROMETHEUS_FOLDER_CONFIG}:/etc/prometheus/prometheus.yml
  
-   uptime-kuma:
+  uptime-kuma:
     image: louislam/uptime-kuma:2
     container_name: uptime-kuma
     volumes:
