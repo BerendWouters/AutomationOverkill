@@ -22,10 +22,6 @@ services:
       traefik.http.routers.sonarr_https.entrypoints: websecure
       traefik.http.routers.sonarr_https.rule: Host(`sonarr.${DNS_HOSTNAME}`)
       traefik.http.routers.sonarr_https.tls.certresolver: myresolver
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
     depends_on:
       reverse-proxy:
         condition: service_started
@@ -65,10 +61,6 @@ services:
       traefik.http.routers.bazarr_https.rule: Host(`bazarr.${DNS_HOSTNAME}`)
       traefik.http.routers.bazarr_https.tls.certresolver: myresolver
     restart: unless-stopped
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
     depends_on:
       reverse-proxy:
         condition: service_started
@@ -92,10 +84,6 @@ services:
     user: root
     volumes:
     - ${GRAFANA_FOLDER_DATA}:/var/lib/grafana:rw    
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
     depends_on:
       reverse-proxy:
         condition: service_started
@@ -141,10 +129,6 @@ services:
     restart: unless-stopped
     volumes:
     - ${HEIMDALL_FOLDER_CONFIG}:/config:rw    
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
     depends_on:
       reverse-proxy:
         condition: service_started
@@ -166,10 +150,6 @@ services:
       traefik.http.routers.homeassistant_https.entrypoints: websecure
       traefik.http.routers.homeassistant_https.rule: Host(`homeassistant.${DNS_HOSTNAME}`)
       traefik.http.routers.homeassistant_https.tls.certresolver: myresolver
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
     ports:
     - published: ${HOMEASSISTANT_PORT}
       target: 8123
@@ -205,10 +185,6 @@ services:
       traefik.http.routers.radarr_https.entrypoints: websecure
       traefik.http.routers.radarr_https.rule: Host(`radarr.${DNS_HOSTNAME}`) || Host(`couchpotato.${DNS_HOSTNAME}`)
       traefik.http.routers.radarr_https.tls.certresolver: myresolver    
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
     restart: unless-stopped
     volumes:
     - ${RADARR_FOLDER_COMPLETED}:/completed:rw
@@ -234,11 +210,6 @@ services:
       --metrics.prometheus.addEntryPointsLabels=true
       --core.defaultRuleSyntax=v2
       --ping=true
-
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"   
     restart: unless-stopped
     ports:
     - published: 80
