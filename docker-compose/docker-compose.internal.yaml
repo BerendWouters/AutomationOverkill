@@ -22,10 +22,6 @@ services:
     - ${TRANSMISSION_FOLDER_MOVIES_DOWNLOAD}:/downloads/movies
     - ${TRANSMISSION_FOLDER_CONFIG}:/config
     - ${TRANSMISSION_FOLDER_DATA}:/data  
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
   adguard:
     image: adguard/adguardhome:v0.107.77
     ports:
@@ -40,10 +36,6 @@ services:
     - ${ADGUARD_FOLDER_CONFIG}:/opt/adguardhome/conf
     - ${ADGUARD_FOLDER_WORK}:/opt/adguardhome/work
     restart: unless-stopped    
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
         
   mosquitto:
     image: eclipse-mosquitto:2.0.22
@@ -56,10 +48,6 @@ services:
     - ${MOSQUITTO_FOLDER_DATA}:/mosquitto/data
     - ${MOSQUITTO_FOLDER_LOG}:/mosquitto/log
     restart: unless-stopped    
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
         
   esphome:
     image: esphome/esphome:2026.5.2
@@ -71,10 +59,6 @@ services:
     - ${ESPHOME_FOLDER_CONFIG}:/config
     - ${ESPHOME_FOLDER_LOCALTIME}:/etc/localtime
     restart: unless-stopped    
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
         
   node_red:
     image: nodered/node-red:3.0.1-1
@@ -83,10 +67,6 @@ services:
     volumes:
     - ${NODERED_FOLDER_DATA}:/data
     restart: unless-stopped    
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
   unpackerr:
     image: golift/unpackerr:0.15
     container_name: unpackerr
@@ -123,15 +103,8 @@ services:
       - UN_SONARR_0_DELETE_DELAY=5m
   music_assistant:
     image: ghcr.io/music-assistant/server:2.8.8
-    privileged: true
-    networks:
-      host:
     volumes:
       - ${MUSICASSISTANT_SERVER}:/data
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
 
   odin:
     image: ghcr.io/berendwouters/odin:master
@@ -184,10 +157,6 @@ services:
     ports:
     - 9980:8080
     restart: unless-stopped    
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
 
   matter-server:
     image: ghcr.io/matter-js/python-matter-server:8.1.2
