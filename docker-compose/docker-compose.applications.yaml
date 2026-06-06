@@ -228,7 +228,7 @@ services:
       retries: 3
 
   jellyfin:
-    image: jellyfin/jellyfin:10.11.10
+    image: jellyfin/jellyfin:10.11.11
     container_name: jellyfin
     user: 1000:1000
     group_add:
