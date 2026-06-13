@@ -89,7 +89,7 @@ services:
     restart: always
 
   glances:
-    image: nicolargo/glances:4.5.4
+    image: nicolargo/glances:4.5.5
     restart: always
     pid: host
     ports:
