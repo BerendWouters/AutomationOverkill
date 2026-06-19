@@ -71,6 +71,8 @@ jobs:
           IMMICH_UPLOAD_LOCATION: "/home/immich/uploads"
           IMMICH_EXTERNAL_LOCATION: "/mnt/external"
           IMMICH_DB_DATA_LOCATION: "/home/immich/db"
+          ADVENTURELOG_POSTGRES_LOCATION: "/home/adventurelog/postgres"
+          ADVENTURELOG_DATA_LOCATION: "/home/adventurelog/data"
 
 
           
