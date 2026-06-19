@@ -543,7 +543,7 @@ services:
     image: ghcr.io/seanmorley15/adventurelog-backend:latest
     container_name: adventurelog-backend
     restart: unless-stopped
-     environment:
+    environment:
       PGHOST: "adventurelog_db"
       PGDATABASE: "database"
       PGUSER: "adventure"
