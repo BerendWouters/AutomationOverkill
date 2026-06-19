@@ -506,8 +506,72 @@ services:
     shm_size: 128mb
     restart: always
 
+adventurelog_web:
+    image: ghcr.io/seanmorley15/adventurelog-frontend:latest
+    container_name: adventurelog-frontend
+    restart: unless-stopped
+    environment:
+      PUBLIC_SERVER_URL: "http://adventurelog_server:8000"
+      BODY_SIZE_LIMIT: "100000"
+    ports:
+      - "${FRONTEND_PORT:-8015}:3000"
+    depends_on:
+      - adventurelog_server
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.wanderer_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.wanderer_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.wanderer_http.entrypoints: web
+      traefik.http.routers.wanderer_http.middlewares: wanderer_https_redirect
+      traefik.http.routers.wanderer_http.rule: Host(`wanderer.${DNS_HOSTNAME}`) && !(PathPrefix(`/media`) || PathPrefix(`/admin`) || PathPrefix(`/static`) || PathPrefix(`/accounts`))" # Replace with your domain
+      traefik.http.routers.wanderer_https.entrypoints: websecure
+      traefik.http.routers.wanderer_https.rule: Host(`wanderer.${DNS_HOSTNAME}`) && !(PathPrefix(`/media`) || PathPrefix(`/admin`) || PathPrefix(`/static`) || PathPrefix(`/accounts`))" # Replace with your domain
+      traefik.http.routers.wanderer_https.tls.certresolver: myresolver
 
+  adventurelog_db:
+    image: postgis/postgis:16-3.5
+    container_name: adventurelog-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: database
+      POSTGRES_USER: adventure
+      POSTGRES_PASSWORD: ${ADVENTURELOG_DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
 
+  adventurelog_server:
+    image: ghcr.io/seanmorley15/adventurelog-backend:latest
+    container_name: adventurelog-backend
+    restart: unless-stopped
+     environment:
+      PGHOST: "adventurelog_db"
+      PGDATABASE: "database"
+      PGUSER: "adventure"
+      PGPASSWORD: ${ADVENTURELOG_DB_PASSWORD} # Replace with the actual password
+      SECRET_KEY: ${ADVENTURELOG_SECRET_KEY} # Replace with the actual secret key
+      DJANGO_ADMIN_USERNAME: "admin"
+      DJANGO_ADMIN_PASSWORD: ${ADVENTURELOG_DJANGO_PASSWORD} # Replace with the actual admin password
+      DJANGO_ADMIN_EMAIL: "${ADVENTURELOG_DJANGO_EMAIL}" # Replace with your email
+      PUBLIC_URL: "https://adventurelog.${DNS_HOSTNAME}" # Replace with your domain
+      CSRF_TRUSTED_ORIGINS: "https://adventurelog.${DNS_HOSTNAME}" # Replace with your domain
+      DEBUG: "false"
+      FRONTEND_URL: "https://adventurelog.${DNS_HOSTNAME}" # Replace with your domain
+    ports:
+      - "${ADVENTURELOG_BACKEND_PORT:-8016}:80"
+    depends_on:
+      - adventurelog_db
+    volumes:
+      -  ${ADVENTURELOG_DATA_LOCATION}:/code/media/
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.wanderer_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.wanderer_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.wanderer_http.entrypoints: web
+      traefik.http.routers.wanderer_http.middlewares: wanderer_https_redirect
+      traefik.http.routers.wanderer_http.rule: Host(`wanderer.${DNS_HOSTNAME}`) && (PathPrefix(`/media`) || PathPrefix(`/admin`) || PathPrefix(`/static`) || PathPrefix(`/accounts`))" # Replace with your domain
+      traefik.http.routers.wanderer_https.entrypoints: websecure
+      traefik.http.routers.wanderer_https.rule: Host(`wanderer.${DNS_HOSTNAME}`) && (PathPrefix(`/media`) || PathPrefix(`/admin`) || PathPrefix(`/static`) || PathPrefix(`/accounts`))" # Replace with your domain
+      traefik.http.routers.wanderer_https.tls.certresolver: myresolver
 
 
 
