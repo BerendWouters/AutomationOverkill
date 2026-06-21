@@ -519,6 +519,7 @@ services:
       - adventurelog_server
     labels:
       traefik.enable: "true"
+      traefik.http.services.adventurelog_web.loadbalancer.server.port: 3000
       traefik.http.middlewares.adventurelog_web_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.adventurelog_web_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.adventurelog_web_http.entrypoints: web
@@ -564,6 +565,7 @@ services:
       -  ${ADVENTURELOG_DATA_LOCATION}:/code/media/
     labels:
       traefik.enable: "true"
+      traefik.http.services.adventurelog_server.loadbalancer.server.port: 80
       traefik.http.middlewares.adventurelog_server_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.adventurelog_server_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.adventurelog_server_http.entrypoints: web
