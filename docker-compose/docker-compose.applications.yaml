@@ -519,14 +519,14 @@ services:
       - adventurelog_server
     labels:
       traefik.enable: "true"
-      traefik.http.middlewares.adventurelog_https_redirect.redirectscheme.permanent: "true"
-      traefik.http.middlewares.adventurelog_https_redirect.redirectscheme.scheme: https
-      traefik.http.routers.adventurelog_http.entrypoints: web
-      traefik.http.routers.adventurelog_http.middlewares: adventurelog_https_redirect
-      traefik.http.routers.adventurelog_http.rule: Host(`adventurelog.${DNS_HOSTNAME}`) && !(PathPrefix(`/media`) || PathPrefix(`/admin`) || PathPrefix(`/static`) || PathPrefix(`/accounts`))" # Replace with your domain
-      traefik.http.routers.adventurelog_https.entrypoints: websecure
-      traefik.http.routers.adventurelog_https.rule: Host(`adventurelog.${DNS_HOSTNAME}`) && !(PathPrefix(`/media`) || PathPrefix(`/admin`) || PathPrefix(`/static`) || PathPrefix(`/accounts`))" # Replace with your domain
-      traefik.http.routers.adventurelog_https.tls.certresolver: myresolver
+      traefik.http.middlewares.adventurelog_web_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.adventurelog_web_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.adventurelog_web_http.entrypoints: web
+      traefik.http.routers.adventurelog_web_http.middlewares: adventurelog_https_redirect
+      traefik.http.routers.adventurelog_web_http.rule: Host(`adventurelog.${DNS_HOSTNAME}`) && !(PathPrefix(`/media`) || PathPrefix(`/admin`) || PathPrefix(`/static`) || PathPrefix(`/accounts`))" # Replace with your domain
+      traefik.http.routers.adventurelog_web_https.entrypoints: websecure
+      traefik.http.routers.adventurelog_web_https.rule: Host(`adventurelog.${DNS_HOSTNAME}`) && !(PathPrefix(`/media`) || PathPrefix(`/admin`) || PathPrefix(`/static`) || PathPrefix(`/accounts`))" # Replace with your domain
+      traefik.http.routers.adventurelog_web_https.tls.certresolver: myresolver
 
   adventurelog_db:
     image: postgis/postgis:16-3.5
@@ -564,14 +564,14 @@ services:
       -  ${ADVENTURELOG_DATA_LOCATION}:/code/media/
     labels:
       traefik.enable: "true"
-      traefik.http.middlewares.adventurelog_https_redirect.redirectscheme.permanent: "true"
-      traefik.http.middlewares.adventurelog_https_redirect.redirectscheme.scheme: https
-      traefik.http.routers.adventurelog_http.entrypoints: web
-      traefik.http.routers.adventurelog_http.middlewares: adventurelog_https_redirect
-      traefik.http.routers.adventurelog_http.rule: Host(`adventurelog.${DNS_HOSTNAME}`) && (PathPrefix(`/media`) || PathPrefix(`/admin`) || PathPrefix(`/static`) || PathPrefix(`/accounts`))" # Replace with your domain
-      traefik.http.routers.adventurelog_https.entrypoints: websecure
-      traefik.http.routers.adventurelog_https.rule: Host(`adventurelog.${DNS_HOSTNAME}`) && (PathPrefix(`/media`) || PathPrefix(`/admin`) || PathPrefix(`/static`) || PathPrefix(`/accounts`))" # Replace with your domain
-      traefik.http.routers.adventurelog_https.tls.certresolver: myresolver
+      traefik.http.middlewares.adventurelog_server_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.adventurelog_server_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.adventurelog_server_http.entrypoints: web
+      traefik.http.routers.adventurelog_server_http.middlewares: adventurelog_https_redirect
+      traefik.http.routers.adventurelog_server_http.rule: Host(`adventurelog.${DNS_HOSTNAME}`) && (PathPrefix(`/media`) || PathPrefix(`/admin`) || PathPrefix(`/static`) || PathPrefix(`/accounts`))" # Replace with your domain
+      traefik.http.routers.adventurelog_server_https.entrypoints: websecure
+      traefik.http.routers.adventurelog_server_https.rule: Host(`adventurelog.${DNS_HOSTNAME}`) && (PathPrefix(`/media`) || PathPrefix(`/admin`) || PathPrefix(`/static`) || PathPrefix(`/accounts`))" # Replace with your domain
+      traefik.http.routers.adventurelog_server_https.tls.certresolver: myresolver
 
 
 
