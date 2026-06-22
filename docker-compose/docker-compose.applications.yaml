@@ -511,7 +511,7 @@ services:
     container_name: adventurelog-frontend
     restart: unless-stopped
     environment:
-      PUBLIC_SERVER_URL: "http://adventurelog_server:8000"
+      PUBLIC_SERVER_URL: "http://adventurelog-backend:8000"
       BODY_SIZE_LIMIT: "100000"
     ports:
       - "${FRONTEND_PORT:-8015}:3000"
@@ -557,6 +557,7 @@ services:
       CSRF_TRUSTED_ORIGINS: "https://adventurelog.${DNS_HOSTNAME}" # Replace with your domain
       DEBUG: "false"
       FRONTEND_URL: "https://adventurelog.${DNS_HOSTNAME}" # Replace with your domain
+      ENABLE_RATE_LIMITS: "True"
     ports:
       - "${ADVENTURELOG_BACKEND_PORT:-8016}:80"
     depends_on:
