@@ -507,7 +507,7 @@ services:
     restart: always
 
   adventurelog_web:
-    image: ghcr.io/seanmorley15/adventurelog-frontend:latest
+    image: ghcr.io/seanmorley15/adventurelog-frontend:v0.12.1
     container_name: adventurelog-frontend
     restart: unless-stopped
     environment:
@@ -541,7 +541,7 @@ services:
       - ${ADVENTURELOG_POSTGRES_LOCATION}:/var/lib/postgresql/data/
 
   adventurelog_server:
-    image: ghcr.io/seanmorley15/adventurelog-backend:latest
+    image: ghcr.io/seanmorley15/adventurelog-backend:v0.12.1
     container_name: adventurelog-backend
     restart: unless-stopped
     environment:
