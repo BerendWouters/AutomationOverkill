@@ -50,7 +50,7 @@ services:
     restart: unless-stopped    
         
   esphome:
-    image: esphome/esphome:2026.6.1
+    image: esphome/esphome:2026.6.2
     ports:
     - ${ESPHOME_PORT}:6052
     environment:
