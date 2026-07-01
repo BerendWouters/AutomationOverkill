@@ -42,7 +42,8 @@ services:
     - PGID=1000
     - TZ=Europe/Brussels
     volumes:
-    - ${TELEGRAF_FOLDER_ETC}:/etc/telegraf/:ro      
+    - ${TELEGRAF_FOLDER_ETC}:/etc/telegraf/:ro   
+    - /var/run/docker.sock:/var/run/docker.sock   
     restart: unless-stopped
     
   influxdb:
