@@ -68,7 +68,7 @@ services:
     - ${INFLUXDB2_FOLDER_ETC}:/etc/influxdb2
   
   prometheus:
-    image: prom/prometheus:v3.12.0
+    image: prom/prometheus:v3.13.0
     environment:
     - TZ=Europe/Brussels
     ports:
