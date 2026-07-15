@@ -23,7 +23,7 @@ services:
     - ${TRANSMISSION_FOLDER_CONFIG}:/config
     - ${TRANSMISSION_FOLDER_DATA}:/data  
   adguard:
-    image: adguard/adguardhome:v0.107.77
+    image: adguard/adguardhome:v0.107.78
     ports:
     - 3030:3000
     - 53:53/tcp
