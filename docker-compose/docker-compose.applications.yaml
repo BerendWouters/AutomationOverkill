@@ -541,7 +541,7 @@ services:
       - ${ADVENTURELOG_POSTGRES_LOCATION}:/var/lib/postgresql/data/
 
   adventurelog_server:
-    image: ghcr.io/seanmorley15/adventurelog-backend:v0.12.1
+    image: ghcr.io/seanmorley15/adventurelog-backend:v0.13.0
     container_name: adventurelog-backend
     restart: unless-stopped
     environment:
