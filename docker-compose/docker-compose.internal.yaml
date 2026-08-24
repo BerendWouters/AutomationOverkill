@@ -105,6 +105,7 @@ services:
     image: ghcr.io/music-assistant/server:2.9.13
     volumes:
       - ${MUSICASSISTANT_SERVER}:/data
+    network_mode: host
 
   odin:
     image: ghcr.io/berendwouters/odin:master
