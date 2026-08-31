@@ -68,7 +68,7 @@ services:
     - ${NODERED_FOLDER_DATA}:/data
     restart: unless-stopped    
   unpackerr:
-    image: golift/unpackerr:0.15
+    image: golift/unpackerr:0.16
     container_name: unpackerr
     volumes:
       # You need at least this one volume mapped so Unpackerr can find your files to extract.
