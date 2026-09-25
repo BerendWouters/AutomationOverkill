@@ -1,0 +1,46 @@
+﻿@page "/files/{rootFolder?}"
+
+@using System.IO
+@using System.Text
+<h3>Files</h3>
+
+<ul>
+	@foreach(var file in files)
+    {
+        <li><a href="files/@file.FileBase64">@file.File</a></li>
+	}
+    
+</ul>
+
+@code {
+    [Parameter]
+    public string? RootFolder { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        var defaultFolder = @"C:\Users\Berend\Documents";
+        var folder = RootFolder != null ? Encoding.UTF8.GetString(Convert.FromBase64String(RootFolder)) : null ?? defaultFolder;
+        files = Directory.GetDirectories(folder)
+            .Select(x => new FileMapping(x))
+            .ToList();
+
+
+
+        base.OnInitialized();
+
+    }
+
+    private IReadOnlyList<FileMapping> files = new List<FileMapping>();
+
+    public class FileMapping
+    {
+        public FileMapping(string file)
+        {
+            File = file;
+        }
+
+        public string File { get; private set; }
+        public string FileBase64 => Convert.ToBase64String(Encoding.UTF8.GetBytes(File));
+    }
+}
