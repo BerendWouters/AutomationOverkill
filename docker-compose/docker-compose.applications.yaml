@@ -410,6 +410,7 @@ services:
     restart: unless-stopped
     volumes:
       - ${WANDERER_DB_DATA}:/pb_data
+      - ${WANDERER_DATA_PLUGINS}:/data/plugins
   wanderer-web:
     container_name: wanderer-web
     image: flomp/wanderer-web:v0.21.0
@@ -433,7 +434,6 @@ services:
       PUBLIC_NOMINATIM_URL: https://nominatim.openstreetmap.org
     volumes:
       - ${WANDERER_UPLOADS}:/app/uploads
-      - ${WANDERER_DATA_PLUGINS}:/data/plugins
     ports:
       - "3333:3000"
     restart: unless-stopped
