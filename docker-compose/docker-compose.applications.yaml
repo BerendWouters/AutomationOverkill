@@ -433,7 +433,7 @@ services:
       PUBLIC_NOMINATIM_URL: https://nominatim.openstreetmap.org
     volumes:
       - ${WANDERER_UPLOADS}:/app/uploads
-      - ${WANDERER_DATA_PLUGINS}:/data/plugins
+      - ${WANDERER_DATA_PLUGINS}:/app/data/plugins
     ports:
       - "3333:3000"
     restart: unless-stopped
