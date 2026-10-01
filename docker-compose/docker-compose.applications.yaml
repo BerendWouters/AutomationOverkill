@@ -328,7 +328,7 @@ services:
       traefik.http.routers.jellyseerr_https.tls.certresolver: myresolver
     restart: unless-stopped
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:2.36.1
+    image: ghcr.io/advplyr/audiobookshelf:2.37.1
     volumes:
       - ${ABS_AUDIOBOOKS}:/audiobooks
       - ${ABS_PODCASTS}:/podcasts
@@ -395,7 +395,7 @@ services:
       timeout: 10s
   wanderer-db:
     container_name: wanderer-db
-    image: flomp/wanderer-db:v0.20.0
+    image: flomp/wanderer-db:v0.21.0
     depends_on:
       wanderer-search:
         condition: service_healthy
@@ -405,13 +405,15 @@ services:
       MEILI_MASTER_KEY: ${WANDERER_MEILI_MASTER_KEY}
       POCKETBASE_ENCRYPTION_KEY: ${WANDERER_POCKETBASE_ENCRYPTION_KEY}
       POCKETBASE_CRON_SYNC_SCHEDULE: 20 14 * * *
+      POCKETBASE_PROXY_SECRET: $(POCKETBASE_PROXY_SECRET)
       ORIGIN: https://wanderer.${DNS_HOSTNAME}
     restart: unless-stopped
     volumes:
       - ${WANDERER_DB_DATA}:/pb_data
+      - ${WANDERER_DATA_PLUGINS}:/data/plugins
   wanderer-web:
     container_name: wanderer-web
-    image: flomp/wanderer-web:v0.20.0
+    image: flomp/wanderer-web:v0.21.0
     depends_on:
       wanderer-search:
         condition: service_healthy
@@ -421,6 +423,7 @@ services:
       MEILI_URL: http://wanderer-search:7700
       MEILI_MASTER_KEY: ${WANDERER_MEILI_MASTER_KEY}
       ORIGIN: https://wanderer.${DNS_HOSTNAME}
+      POCKETBASE_PROXY_SECRET: $(POCKETBASE_PROXY_SECRET)
       BODY_SIZE_LIMIT: Infinity
       PUBLIC_POCKETBASE_URL: http://wanderer-db:8090
       PUBLIC_DISABLE_SIGNUP: true
