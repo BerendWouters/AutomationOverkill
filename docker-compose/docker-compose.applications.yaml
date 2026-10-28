@@ -458,6 +458,8 @@ services:
       # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
       - ${IMMICH_UPLOAD_LOCATION}:/data
       - ${IMMICH_EXTERNAL_LOCATION}:/external_location
+      - ${IMMICH_EXTERNAL_LOCATION_USER_0}:/external_location_user_0
+      - ${IMMICH_EXTERNAL_LOCATION_USER_1}:/external_location_user_1
       - /etc/localtime:/etc/localtime:ro
     environment:
        TZ: Europe/Brussels
