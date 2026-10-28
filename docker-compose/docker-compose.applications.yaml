@@ -461,6 +461,10 @@ services:
       - ${IMMICH_EXTERNAL_LOCATION_USER_0}:/external_location_user_0
       - ${IMMICH_EXTERNAL_LOCATION_USER_1}:/external_location_user_1
       - /etc/localtime:/etc/localtime:ro
+    devices:
+    # Hardware encoding
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/card1:/dev/dri/card0
     environment:
        TZ: Europe/Brussels
        UPLOAD_LOCATION: "./library"
