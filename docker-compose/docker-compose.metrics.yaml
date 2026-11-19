@@ -48,7 +48,7 @@ services:
     restart: unless-stopped
     
   influxdb:
-    image: influxdb:2.9
+    image: influxdb:2.10
     environment:
     - PUID=1000
     - PGID=1000
