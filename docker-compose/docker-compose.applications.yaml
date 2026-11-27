@@ -637,6 +637,7 @@ services:
       traefik.http.routers.tribu_ws_http.rule: Host(`tribu.${DNS_HOSTNAME}`) && PathPrefix(`/ws`)
       traefik.http.routers.tribu_ws_https.rule: Host(`tribu.${DNS_HOSTNAME}`) && PathPrefix(`/ws`)
       traefik.http.routers.tribu_ws_https.tls.certresolver: myresolver
+      traefik.http.routers.tribu-ws.service: tribu-api
       traefik.http.middlewares.tribu_dav_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.tribu_dav_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.tribu_dav_http.entrypoints: web
@@ -645,6 +646,7 @@ services:
       traefik.http.routers.tribu_dav_http.rule: Host(`tribu.${DNS_HOSTNAME}`) && (PathPrefix(`/dav`) || Path(`/.well-known/caldav`) || Path(`/.well-known/carddav`))
       traefik.http.routers.tribu_dav_https.rule: Host(`tribu.${DNS_HOSTNAME}`) && (PathPrefix(`/dav`) || Path(`/.well-known/caldav`) || Path(`/.well-known/carddav`))
       traefik.http.routers.tribu_dav_https.tls.certresolver: myresolver
+      traefik.http.routers.tribu_dav_https.service: tribu-api
       traefik.http.services.tribu-api.loadbalancer.server.port: 8000
       traefik.http.middlewares.tribu-api-strip.stripprefix.prefixes: /api
 
