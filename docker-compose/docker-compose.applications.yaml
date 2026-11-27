@@ -618,6 +618,33 @@ services:
     ports: ["8023:8000"]
     volumes:
       - ${TRIBU_BACKUPS}:/backups
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.tribu_api_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.tribu_api_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.tribu_api_http.entrypoints: web
+      traefik.http.routers.tribu_api_http.middlewares: tribu_https_redirect
+      traefik.http.routers.tribu_api_https.entrypoints: websecure
+      traefik.http.routers.tribu_api_http.rule: Host(`tribu.${DNS_HOSTNAME}`) && PathPrefix(`/api`)
+      traefik.http.routers.tribu_api_https.rule: Host(`tribu.${DNS_HOSTNAME}`) && PathPrefix(`/api`)
+      traefik.http.routers.tribu_api_https.tls.certresolver: myresolver
+      traefik.http.middlewares.tribu_ws_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.tribu_ws_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.tribu_ws_http.entrypoints: web
+      traefik.http.routers.tribu_ws_http.middlewares: tribu_ws_https_redirect
+      traefik.http.routers.tribu_ws_https.entrypoints: websecure
+      traefik.http.routers.tribu_ws_http.rule: Host(`tribu.${DNS_HOSTNAME}`) && PathPrefix(`/ws`)
+      traefik.http.routers.tribu_ws_https.rule: Host(`tribu.${DNS_HOSTNAME}`) && PathPrefix(`/ws`)
+      traefik.http.routers.tribu_ws_https.tls.certresolver: myresolver
+      traefik.http.middlewares.tribu_dav_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.tribu_davhttps_redirect.redirectscheme.scheme: https
+      traefik.http.routers.tribu_dav_http.entrypoints: web
+      traefik.http.routers.tribu_dav_http.middlewares: tribu_dav_https_redirect
+      traefik.http.routers.tribu_dav_https.entrypoints: websecure
+      traefik.http.routers.tribu_dav_http.rule: Host(`tribu.${DNS_HOSTNAME}`) && (PathPrefix(`/dav`) || Path(`/.well-known/caldav`) || Path(`/.well-known/carddav`))"
+      traefik.http.routers.tribu_dav_https.rule: Host(`tribu.${DNS_HOSTNAME}`) && (PathPrefix(`/dav`) || Path(`/.well-known/caldav`) || Path(`/.well-known/carddav`))"
+      traefik.http.routers.tribu_dav_https.tls.certresolver: myresolver
+      traefik.http.services.tribu-api.loadbalancer.server.port: 8000
 
   tribu-frontend:
     image: ghcr.io/itsdnns/tribu-frontend:latest
@@ -627,12 +654,12 @@ services:
     ports: ["8022:3000"]
     labels:
       traefik.enable: "true"
-      traefik.http.services.tribu.loadbalancer.server.port: 80
       traefik.http.middlewares.tribu_https_redirect.redirectscheme.permanent: "true"
       traefik.http.middlewares.tribu_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.tribu_http.entrypoints: web
-      traefik.http.routers.tribu_http.middlewares: adventurelog_server_https_redirect
-      traefik.http.routers.tribu_http.rule: Host(`tribu.${DNS_HOSTNAME}`)
+      traefik.http.routers.tribu_http.middlewares: tribu_https_redirect
       traefik.http.routers.tribu_https.entrypoints: websecure
+      traefik.http.routers.tribu_http.rule: Host(`tribu.${DNS_HOSTNAME}`)
       traefik.http.routers.tribu_https.rule: Host(`tribu.${DNS_HOSTNAME}`)
       traefik.http.routers.tribu_https.tls.certresolver: myresolver
+      traefik.http.services.tribu.loadbalancer.server.port: 3000
