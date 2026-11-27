@@ -651,9 +651,8 @@ services:
     container_name: tribu-frontend
     restart: unless-stopped
     environment:
-      BACKEND_URL: http://tribu-backend:8000
+      BACKEND_URL: https://tribu.${DNS_HOSTNAME}
     depends_on: [tribu-backend]
-    ports: ["8022:3000"]
     labels:
       traefik.enable: "true"
       traefik.http.middlewares.tribu_https_redirect.redirectscheme.permanent: "true"
