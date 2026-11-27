@@ -640,10 +640,11 @@ services:
       traefik.http.routers.tribu_dav_http.entrypoints: web
       traefik.http.routers.tribu_dav_http.middlewares: tribu_dav_https_redirect
       traefik.http.routers.tribu_dav_https.entrypoints: websecure
-      traefik.http.routers.tribu_dav_http.rule: Host(`tribu.${DNS_HOSTNAME}`) && (PathPrefix(`/dav`) || Path(`/.well-known/caldav`) || Path(`/.well-known/carddav`))"
-      traefik.http.routers.tribu_dav_https.rule: Host(`tribu.${DNS_HOSTNAME}`) && (PathPrefix(`/dav`) || Path(`/.well-known/caldav`) || Path(`/.well-known/carddav`))"
+      traefik.http.routers.tribu_dav_http.rule: Host(`tribu.${DNS_HOSTNAME}`) && (PathPrefix(`/dav`) || Path(`/.well-known/caldav`) || Path(`/.well-known/carddav`))
+      traefik.http.routers.tribu_dav_https.rule: Host(`tribu.${DNS_HOSTNAME}`) && (PathPrefix(`/dav`) || Path(`/.well-known/caldav`) || Path(`/.well-known/carddav`))
       traefik.http.routers.tribu_dav_https.tls.certresolver: myresolver
       traefik.http.services.tribu-api.loadbalancer.server.port: 8000
+      traefik.http.middlewares.tribu-api-strip.stripprefix.prefixes: /api
 
   tribu-frontend:
     image: ghcr.io/itsdnns/tribu-frontend:latest
