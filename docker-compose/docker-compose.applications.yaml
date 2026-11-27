@@ -615,7 +615,6 @@ services:
       TZ: Europe/Brussels
       MCP_ENABLED: false
     depends_on: [tribu-postgres, tribu-valkey]
-    ports: ["8023:8000"]
     volumes:
       - ${TRIBU_BACKUPS}:/backups
     labels:
@@ -650,6 +649,8 @@ services:
     image: ghcr.io/itsdnns/tribu-frontend:latest
     container_name: tribu-frontend
     restart: unless-stopped
+    environment:
+      BACKEND_URL: http://tribu-backend:8000
     depends_on: [tribu-backend]
     ports: ["8022:3000"]
     labels:
