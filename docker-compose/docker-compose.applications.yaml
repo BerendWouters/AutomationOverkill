@@ -597,7 +597,7 @@ services:
       - ${TRIBU_POSTGRES_DATA}:/var/lib/postgresql/data
 
   tribu-valkey:
-    image: valkey/valkey:8-alpine
+    image: valkey/valkey:9-alpine
     container_name: tribu-valkey
     restart: unless-stopped
 
