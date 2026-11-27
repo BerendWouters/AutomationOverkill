@@ -76,6 +76,10 @@ jobs:
           ADVENTURELOG_POSTGRES_LOCATION: "/home/adventurelog/postgres"
           ADVENTURELOG_DATA_LOCATION: "/home/adventurelog/data"
           WANDERER_DATA_PLUGINS: "/home/wanderer/data/plugins"
+          TRIBU_JWT_SECRET: "tribu"
+          TRIBU_BACKUPS: "/home/tribu/backups"
+          TRIBU_POSTGRES_DATA: "/home/tribu/postgres/data"
+          TRIBU_POSTGRES_PASSWORD: "postgres"
 
 
           
