@@ -584,17 +584,55 @@ services:
       traefik.http.routers.adventurelog_server_https.entrypoints: websecure
       traefik.http.routers.adventurelog_server_https.rule: Host(`adventurelog.${DNS_HOSTNAME}`) && (PathPrefix(`/media`) || PathPrefix(`/admin`) || PathPrefix(`/static`) || PathPrefix(`/accounts`)) # Replace with your domain
       traefik.http.routers.adventurelog_server_https.tls.certresolver: myresolver
+  
+  tribu-postgres:
+    image: postgres:16-alpine
+    container_name: tribu-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: tribu
+      POSTGRES_USER: tribu
+      POSTGRES_PASSWORD: ${TRIBU_POSTGRES_PASSWORD}
+    volumes:
+      - ${TRIBU_POSTGRES_DATA}:/var/lib/postgresql/data
 
+  tribu-valkey:
+    image: valkey/valkey:8-alpine
+    container_name: tribu-valkey
+    restart: unless-stopped
 
+  tribu-backend:
+    image: ghcr.io/itsdnns/tribu-backend:latest
+    container_name: tribu-backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://tribu:${TRIBU_POSTGRES_PASSWORD}@tribu-postgres:5432/tribu
+      REDIS_URL: redis://tribu-valkey:6379/0
+      JWT_SECRET: ${TRIBU_JWT_SECRET}
+      SECURE_COOKIES: auto
+      JWT_EXPIRE_HOURS: 24
+      REFRESH_TOKEN_EXPIRE_DAYS: 30
+      TZ: Europe/Brussels
+      MCP_ENABLED: false
+    depends_on: [tribu-postgres, tribu-valkey]
+    ports: ["8023:8000"]
+    volumes:
+      - ${TRIBU_BACKUPS}:/backups
 
-
-
-
-
-
-
-
-
-
-
-
+  tribu-frontend:
+    image: ghcr.io/itsdnns/tribu-frontend:latest
+    container_name: tribu-frontend
+    restart: unless-stopped
+    depends_on: [tribu-backend]
+    ports: ["8022:3000"]
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.tribu.loadbalancer.server.port: 80
+      traefik.http.middlewares.tribu_https_redirect.redirectscheme.permanent: "true"
+      traefik.http.middlewares.tribu_https_redirect.redirectscheme.scheme: https
+      traefik.http.routers.tribu_http.entrypoints: web
+      traefik.http.routers.tribu_http.middlewares: adventurelog_server_https_redirect
+      traefik.http.routers.tribu_http.rule: Host(`tribu.${DNS_HOSTNAME}`)
+      traefik.http.routers.tribu_https.entrypoints: websecure
+      traefik.http.routers.tribu_https.rule: Host(`tribu.${DNS_HOSTNAME}`)
+      traefik.http.routers.tribu_https.tls.certresolver: myresolver
