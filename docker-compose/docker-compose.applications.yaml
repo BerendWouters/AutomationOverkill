@@ -636,7 +636,7 @@ services:
       traefik.http.routers.tribu_ws_https.rule: Host(`tribu.${DNS_HOSTNAME}`) && PathPrefix(`/ws`)
       traefik.http.routers.tribu_ws_https.tls.certresolver: myresolver
       traefik.http.middlewares.tribu_dav_https_redirect.redirectscheme.permanent: "true"
-      traefik.http.middlewares.tribu_davhttps_redirect.redirectscheme.scheme: https
+      traefik.http.middlewares.tribu_dav_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.tribu_dav_http.entrypoints: web
       traefik.http.routers.tribu_dav_http.middlewares: tribu_dav_https_redirect
       traefik.http.routers.tribu_dav_https.entrypoints: websecure
