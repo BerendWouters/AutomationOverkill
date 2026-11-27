@@ -625,6 +625,7 @@ services:
       traefik.http.middlewares.tribu_api_https_redirect.redirectscheme.scheme: https
       traefik.http.routers.tribu_api_http.entrypoints: web
       traefik.http.routers.tribu_api_http.middlewares: tribu_api_https_redirect
+      traefik.http.routers.tribu_api_https.middlewares: tribu-api-strip
       traefik.http.routers.tribu_api_https.entrypoints: websecure
       traefik.http.routers.tribu_api_http.rule: Host(`tribu.${DNS_HOSTNAME}`) && PathPrefix(`/api`)
       traefik.http.routers.tribu_api_https.rule: Host(`tribu.${DNS_HOSTNAME}`) && PathPrefix(`/api`)
